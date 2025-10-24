@@ -1,0 +1,123 @@
+/* Enhanced Tank Bank wallet adapter styles */
+.wallet-adapter-modal-wrapper {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+.wallet-adapter-modal {
+  background: rgba(45, 49, 47, 0.95);
+  border: 2px solid #BE501E;
+  border-radius: 8px;
+  box-shadow: 0 0 30px rgba(190, 80, 30, 0.5);
+  backdrop-filter: blur(10px);
+  max-width: 400px;
+  position: relative;
+}
+
+.wallet-adapter-modal-title {
+  color: #BE501E;
+  font-family: 'FiraCode', monospace;
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+}
+
+.wallet-adapter-modal-title::before {
+  content: "CONNECT COMMANDER MODULE";
+  display: block;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+}
+
+.wallet-adapter-modal-list {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.wallet-adapter-modal-list li {
+  background: rgba(190, 80, 30, 0.1);
+  border: 2px solid rgba(190, 80, 30, 0.3);
+  border-radius: 6px;
+  margin: 0;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.wallet-adapter-modal-list li:hover {
+  background: rgba(190, 80, 30, 0.2);
+  border-color: #BE501E;
+  box-shadow: 0 4px 12px rgba(190, 80, 30, 0.3);
+}
+
+.wallet-adapter-modal-list li button {
+  color: #BE501E !important;
+  font-family: 'FiraCode', monospace !important;
+  font-weight: bold !important;
+  font-size: 0.9rem !important;
+  text-transform: uppercase;
+  padding: 16px !important;
+  width: 100%;
+  background: transparent !important;
+  border: none !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  transition: color 0.3s ease !important;
+}
+
+.wallet-adapter-modal-list li:hover button {
+  color: #000000 !important;
+}
+
+.wallet-adapter-modal-list img {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 6px;
+  filter: brightness(1.2);
+}
+
+.wallet-adapter-modal-list .wallet-adapter-modal-list-more {
+  color: #BE501E;
+  font-family: 'FiraCode', monospace;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.wallet-adapter-modal-list .wallet-adapter-modal-list-more:hover {
+  color: #000000;
+}
+
+.wallet-adapter-modal-wrapper .wallet-adapter-modal-overlay {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.wallet-adapter-modal-button-close {
+  color: #BE501E;
+  font-size: 1.5rem;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.wallet-adapter-modal-button-close:hover {
+  color: #000000;
+}
+
+/* Tank Bank border gradient effect */
+.wallet-adapter-modal::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #BE501E, #A8540E, #BE501E);
+  border-radius: 8px;
+  z-index: -1;
+  opacity: 0.3;
+}
