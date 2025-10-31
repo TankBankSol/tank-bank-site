@@ -2,7 +2,7 @@ import { Connection, clusterApiUrl } from '@solana/web3.js'
 
 // Environment configuration
 const HELIUS_API_KEY = import.meta.env.VITE_HELIUS_API_KEY
-const SOLANA_NETWORK = import.meta.env.VITE_SOLANA_NETWORK || 'devnet'
+const SOLANA_NETWORK = import.meta.env.VITE_SOLANA_NETWORK || 'mainnet-beta'
 
 // Validate environment variables
 if (!HELIUS_API_KEY) {
