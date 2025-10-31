@@ -2,12 +2,12 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { useEffect } from 'react'
 import AnimatedBackground from './components/AnimatedBackground'
 import TopBar from './components/TopBar'
+import SocialMedia from './components/SocialMedia'
 import { WalletContextProvider } from './components/WalletProvider'
 import HomePage from './pages/HomePage'
 import CommandPage from './pages/CommandPage'
-import DeploymentPage from './pages/DeploymentPage'
+import OperationsPage from './pages/OperationsPage'
 import CommsPage from './pages/CommsPage'
-import MemeGeneratorPage from './pages/MemeGeneratorPage'
 import './App.css'
 import './wallet-adapter.css'
 
@@ -15,7 +15,7 @@ const MobileScrollController = () => {
   const location = useLocation()
 
   useEffect(() => {
-    const isNoScrollPage = ['/', '/command', '/comms'].includes(location.pathname)
+    const isNoScrollPage = ['/', '/command'].includes(location.pathname)
 
     if (window.innerWidth <= 768 && isNoScrollPage) {
       document.body.style.overflow = 'hidden'
@@ -45,18 +45,15 @@ function App() {
       <Router>
         <WalletContextProvider>
           <MobileScrollController />
-          <AnimatedBackground
-            dotDistance={50}
-            dotSize={1}
-          />
+          <AnimatedBackground />
           <TopBar />
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/command" element={<CommandPage />} />
-            <Route path="/deployment" element={<DeploymentPage />} />
+            <Route path="/deployment" element={<OperationsPage />} />
             <Route path="/comms" element={<CommsPage />} />
-            <Route path="/meme-generator" element={<MemeGeneratorPage />} />
           </Routes>
+          <SocialMedia />
         </WalletContextProvider>
       </Router>
     </>

@@ -1,12 +1,15 @@
 
+
 import { type ReactElement, useState, useEffect } from 'react'
+// import { useWallet } from '@solana/wallet-adapter-react'
 import { Animator } from '@arwes/react-animator'
 import { useHeaderHeight } from '../hooks/useHeaderHeight'
-import CommunicationCard from '../components/CommunicationCard'
+import OperationCard from '../components/OperationCard'
 
-const CommsPage = (): ReactElement => {
+const OperationsPage = (): ReactElement => {
   const [isMobile, setIsMobile] = useState(false)
   const headerHeight = useHeaderHeight()
+  // const { connected } = useWallet()
 
   useEffect(() => {
     const checkMobile = () => {
@@ -18,11 +21,9 @@ const CommsPage = (): ReactElement => {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  const features = [
-    { name: "Official X", url: "https://x.com/TankBankSol" },
-    { name: "X Community", url: "#" },
-    { name: "Telegram", url: "#" },
-    { name: "Discord", url: "#" }
+  const operations = [
+    { name: "Operation Night Forge", url: "#" },
+    { name: "Operation Black Phantom", url: "#" }
   ]
 
   return (
@@ -41,11 +42,11 @@ const CommsPage = (): ReactElement => {
         width: '100%'
       }}>
         <Animator active={true}>
-          <CommunicationCard features={features} isMobile={isMobile} />
+          <OperationCard operations={operations} isMobile={isMobile} />
         </Animator>
       </div>
     </div>
   )
 }
 
-export default CommsPage
+export default OperationsPage

@@ -7,6 +7,7 @@ import {
     PhantomWalletAdapter,
     SolflareWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
+// import { SolanaMobileWalletAdapter } from '@solana-mobile/wallet-adapter-mobile';
 import { NETWORK_CONFIG } from '../config/solana';
 
 interface WalletContextProviderProps {
@@ -22,6 +23,15 @@ export const WalletContextProvider: FC<WalletContextProviderProps> = ({ children
 
     const wallets = useMemo(
         () => [
+            // Mobile Wallet Adapter commented out until we can debug the issue
+            // new SolanaMobileWalletAdapter({
+            //     appIdentity: {
+            //         name: 'Tank Bank',
+            //         uri: 'https://tankbank.sol',
+            //         icon: 'https://tankbank.sol/favicon.ico',
+            //     },
+            //     authorizationResultCache: undefined,
+            // }),
             new PhantomWalletAdapter({
                 network,
             }),

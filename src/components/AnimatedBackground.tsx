@@ -1,62 +1,117 @@
-import { type ReactElement, useState, useEffect } from 'react'
-import { Animator } from '@arwes/react-animator'
-import { Animated } from '@arwes/react-animated'
-import { Dots } from '@arwes/react-bgs'
+import { type ReactElement, useEffect, useRef } from 'react'
+
+// Declare global VANTA
+declare global {
+  interface Window {
+    VANTA: any;
+    THREE: any;
+  }
+}
 
 interface AnimatedBackgroundProps {
   backgroundColor?: string
-  backgroundImage?: string
-  dotColor?: string
-  dotDistance?: number
-  dotSize?: number
 }
 
 const AnimatedBackground = ({
-  backgroundColor = '#2D312F',
-  //backgroundImage = 'radial-gradient(85% 85% at 50% 50%, hsla(35, 38%, 9%, 0.25) 0%, hsla(39, 38%, 9%, 0.12) 50%, hsla(30, 46%, 5%, 0.00) 100%)',
-  dotColor = 'hsla(40, 100%, 23%, 0.83)',
-  dotDistance = 50,
-  dotSize = 1
+  backgroundColor = '#191A19'
 }: AnimatedBackgroundProps): ReactElement => {
-  const [active, setActive] = useState(false)
+  const vantaRef = useRef<HTMLDivElement>(null)
+  const vantaEffect = useRef<any>(null)
 
   useEffect(() => {
-    setActive(true)
-  }, [])
+    const getVantaSettings = () => {
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+      const isPortrait = window.innerHeight > window.innerWidth
+
+      if (isMobile) {
+        return {
+          minHeight: window.innerHeight,
+          minWidth: window.innerWidth,
+          scale: isPortrait ? 0.7 : 0.5,
+          scaleMobile: isPortrait ? 0.7 : 0.5,
+          size: isPortrait ? 1.5 : 1.0,
+          spacing: isPortrait ? 25 : 35
+        }
+      } else {
+        // Desktop settings - keep original values
+        return {
+          minHeight: 200.00,
+          minWidth: 200.00,
+          scale: 1.00,
+          scaleMobile: 1.00,
+          size: 2.00
+        }
+      }
+    }
+
+    const initVanta = () => {
+      if (!vantaEffect.current && vantaRef.current && window.VANTA && window.THREE) {
+        const settings = getVantaSettings()
+        vantaEffect.current = window.VANTA.DOTS({
+          el: vantaRef.current,
+          THREE: window.THREE,
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          ...settings,
+          showLines: false,
+          backgroundColor: backgroundColor,
+          color: 0xff6600
+        })
+      } else if (!window.VANTA || !window.THREE) {
+        setTimeout(initVanta, 100)
+      }
+    }
+
+    const updateVantaSettings = () => {
+      if (vantaEffect.current) {
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+
+        if (isMobile) {
+          // Only update settings on mobile for orientation changes
+          const settings = getVantaSettings()
+          vantaEffect.current.setOptions(settings)
+        }
+
+        // Always resize to fit container
+        vantaEffect.current.resize()
+      }
+    }
+
+    const handleResize = () => {
+      // Update settings for new orientation
+      updateVantaSettings()
+      // Additional delayed resize for mobile orientation changes
+      setTimeout(() => {
+        updateVantaSettings()
+      }, 500)
+    }
+
+    initVanta()
+
+    window.addEventListener('resize', handleResize)
+    window.addEventListener('orientationchange', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      window.removeEventListener('orientationchange', handleResize)
+      if (vantaEffect.current) {
+        vantaEffect.current.destroy()
+      }
+    }
+  }, [backgroundColor])
 
   return (
-    <Animator active={active} duration={{ enter: 2, exit: 0.5 }}>
-      <Animated
-        animated={{
-          transitions: {
-            entering: { opacity: [0, 1] },
-            exiting: { opacity: [1, 0] }
-          }
-        }}
-      >
-        <div style={{
-          position: 'fixed',
-          left: 0,
-          right: 0,
-          top: 0,
-          bottom: 0,
-          width: '100vw',
-          height: '100vh',
-          backgroundColor,
-          backgroundRepeat: 'repeat',
-          zIndex: 0
-        }}>
-          <Dots
-            color={dotColor}
-            type='circle'
-            distance={dotDistance}
-            size={dotSize}
-            origin={[0, 1]}
-            originInverted
-          />
-        </div>
-      </Animated>
-    </Animator>
+    <div
+      ref={vantaRef}
+      style={{
+        position: 'fixed',
+        inset: 0,
+        width: '100vw',
+        height: '100vh',
+        zIndex: -1
+      }}
+    />
   )
 }
 

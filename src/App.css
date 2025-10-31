@@ -61,10 +61,11 @@
 
 .crt-container {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-width: 100vw;
+  min-height: 100vh;
   pointer-events: none;
   z-index: 9999;
   transform: perspective(1000px) rotateX(0.5deg);
@@ -85,5 +86,80 @@
     transparent 2px
   );
   pointer-events: none;
+}
+
+/* Mobile CRT lines - fewer and more subtle */
+@media (max-width: 768px) {
+  .crt-container::before {
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(189, 188, 188, 0.15),
+      rgba(189, 188, 188, 0.15) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+  }
+}
+
+/* Small mobile CRT lines - even more subtle */
+@media (max-width: 480px) {
+  .crt-container::before {
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(189, 188, 188, 0.1),
+      rgba(189, 188, 188, 0.1) 1px,
+      transparent 1px,
+      transparent 6px
+    );
+  }
+}
+
+/* Custom Scrollbar Styling */
+/* Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #191A19;
+  border: 1px solid rgba(190, 80, 30, 0.2);
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #BE501E 0%, #8B3A16 100%);
+  border: 1px solid #BE501E;
+  border-radius: 0;
+  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #D45A20 0%, #9C3F17 100%);
+  border-color: #D45A20;
+  box-shadow: 0 0 6px rgba(190, 80, 30, 0.5);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg, #A0461B 0%, #7A3214 100%);
+}
+
+::-webkit-scrollbar-corner {
+  background: #191A19;
+  border: 1px solid rgba(190, 80, 30, 0.2);
+}
+
+/* Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #BE501E #191A19;
+}
+
+/* Mobile scrollbar styling (for touch devices) */
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
 }
 

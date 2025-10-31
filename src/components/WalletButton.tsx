@@ -1,14 +1,12 @@
 
 
-import { type ReactElement, useRef, useState, useEffect } from 'react'
-import { useWallet } from '@solana/wallet-adapter-react'
+import { type ReactElement, useState, useEffect } from 'react'
+import { useWallet, useConnection } from '@solana/wallet-adapter-react'
+import { LAMPORTS_PER_SOL } from '@solana/web3.js'
 import { Animator } from '@arwes/react-animator'
-import { FrameOctagon } from '@arwes/react-frames'
-import { useSolana } from '../hooks/useSolana'
+// import { useSolana } from '../hooks/useSolana'
 
 const DisconnectModal = ({ isOpen, onConfirm, onCancel }: { isOpen: boolean; onConfirm: () => void; onCancel: () => void }): ReactElement | null => {
-  const confirmButtonRef = useRef<SVGSVGElement | null>(null)
-  const cancelButtonRef = useRef<SVGSVGElement | null>(null)
 
   if (!isOpen) return null
 
@@ -23,145 +21,138 @@ const DisconnectModal = ({ isOpen, onConfirm, onCancel }: { isOpen: boolean; onC
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      zIndex: 1000
+      zIndex: 1000,
+      padding: '2rem'
     }}>
-      <div css={{
-        backgroundColor: 'rgba(45, 49, 47, 0.95)',
-        border: '2px solid #BE501E',
-        borderRadius: '8px',
-        padding: '2rem',
-        maxWidth: '400px',
-        boxShadow: '0 0 30px rgba(190, 80, 30, 0.5)',
-        backdropFilter: 'blur(10px)'
-      }}>
-        <div css={{
-          color: '#BE501E',
-          fontFamily: 'FiraCode, monospace',
-          textAlign: 'center',
-          marginBottom: '2rem'
+      <div
+        data-augmented-ui="tl-clip tr-clip b-clip-x border"
+        css={{
+          '--aug-tr': '25px',
+          '--aug-b-extend1': '50%',
+          '--aug-border-all': '7px',
+          '--aug-border-bg': '#BE501E',
+
+          background: 'black !important',
+          backgroundColor: 'black !important',
+          padding: '3rem',
+          maxWidth: '500px',
+          width: '100%',
+          position: 'relative'
         }}>
-          <h2 css={{
+        <button
+          onClick={onCancel}
+          css={{
+            position: 'absolute',
+            top: '1rem',
+            right: '1rem',
+            background: 'transparent',
+            border: 'none',
+            color: '#BE501E',
             fontSize: '1.5rem',
-            fontWeight: 'bold',
-            marginBottom: '1rem'
-          }}>
-            DISCONNECT COMMANDER MODULE
-          </h2>
-          <p css={{
-            fontSize: '0.9rem',
-            lineHeight: 1.4,
-            opacity: 0.9
-          }}>
-            Are you sure you want to disconnect your wallet from Tank Bank Command?
-          </p>
-        </div>
+            cursor: 'pointer',
+            padding: '0.5rem',
+            transition: 'all 0.3s ease',
+            '&:hover': {
+              color: '#ad2007ff',
+              transform: 'scale(1.1)'
+            }
+          }}
+        >
+          ✕
+        </button>
 
-        <div css={{
-          display: 'flex',
-          gap: '1rem',
-          justifyContent: 'center'
+        <h3 css={{
+          color: '#BE501E',
+          fontFamily: 'Nemesys, serif',
+          fontSize: '2rem',
+          marginBottom: '1rem',
+          textAlign: 'center',
+          fontWeight: 'bold'
         }}>
-          <Animator active={true}>
-            <div
-              css={{
-                position: 'relative',
-                width: 100,
-                height: 50,
-                cursor: 'pointer',
+          Disconnect Commander Module
+        </h3>
 
-                '[data-name=bg]': {
-                  color: 'hsla(36, 48%, 6%, 0.10)',
-                  filter: 'drop-shadow(0 0 4px hsla(38, 61%, 8%, 0.09))'
-                },
-                '[data-name=line]': {
-                  color: '#d32f2f',
-                  filter: 'drop-shadow(0 0 2px #d32f2f)'
-                },
+        <p css={{
+          color: 'rgba(190, 80, 30, 0.9)',
+          fontFamily: 'FiraCode, monospace',
+          fontSize: '1rem',
+          lineHeight: 1.6,
+          marginBottom: '2rem',
+          textAlign: 'center'
+        }}>
+          Are you sure you want to disconnect your wallet from Tank Bank Command?
+        </p>
 
-                '&:hover [data-name=line]': {
-                  color: '#b71c1c',
-                  filter: 'drop-shadow(0 0 3px #b71c1c)'
-                }
-              }}
-              onClick={onConfirm}
-            >
-              <FrameOctagon
-                elementRef={confirmButtonRef}
-                padding={3}
-                strokeWidth={2}
-              />
-              <div css={{
-                position: 'absolute',
-                inset: 4,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#d32f2f',
-                fontFamily: 'FiraCode, monospace',
-                fontSize: '0.7rem',
-                fontWeight: 'bold',
-                zIndex: 1,
-                transition: 'color 0.3s ease',
+        <div css={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <button
+            onClick={onConfirm}
+            data-augmented-ui="tl-clip br-clip border"
+            css={{
+              '--aug-border-all': '2px',
+              '--aug-border-bg': '#d32f2f',
+              '--aug-clip-size': '8px',
 
-                '&:hover': {
-                  color: '#b71c1c'
-                }
-              }}>
-                CONFIRM
-              </div>
-            </div>
-          </Animator>
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1rem',
+              padding: '1.2rem',
+              background: 'transparent',
+              color: '#d32f2f',
+              fontFamily: 'FiraCode, monospace',
+              fontSize: '1rem',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                '--aug-border-bg': '#b71c1c',
+                background: 'rgba(211, 47, 47, 0.1)',
+                color: '#b71c1c',
+                transform: 'translateY(-2px)'
+              }
+            }}
+          >
+            <span css={{
+              fontSize: '1.1rem',
+              fontWeight: 'bold'
+            }}>
+              CONFIRM DISCONNECT
+            </span>
+          </button>
 
-          <Animator active={true}>
-            <div
-              css={{
-                position: 'relative',
-                width: 100,
-                height: 50,
-                cursor: 'pointer',
+          <button
+            onClick={onCancel}
+            data-augmented-ui="tl-clip br-clip border"
+            css={{
+              '--aug-border-all': '2px',
+              '--aug-border-bg': '#BE501E',
+              '--aug-clip-size': '8px',
 
-                '[data-name=bg]': {
-                  color: 'hsla(36, 48%, 6%, 0.10)',
-                  filter: 'drop-shadow(0 0 4px hsla(38, 61%, 8%, 0.09))'
-                },
-                '[data-name=line]': {
-                  color: '#BE501E',
-                  filter: 'drop-shadow(0 0 2px #BE501E)'
-                },
-
-                '&:hover [data-name=line]': {
-                  color: '#000000',
-                  filter: 'drop-shadow(0 0 3px #000000)'
-                }
-              }}
-              onClick={onCancel}
-            >
-              <FrameOctagon
-                elementRef={cancelButtonRef}
-                padding={3}
-                strokeWidth={2}
-              />
-              <div css={{
-                position: 'absolute',
-                inset: 4,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#BE501E',
-                fontFamily: 'FiraCode, monospace',
-                fontSize: '0.7rem',
-                fontWeight: 'bold',
-                zIndex: 1,
-                transition: 'color 0.3s ease',
-
-                '&:hover': {
-                  color: '#000000'
-                }
-              }}>
-                CANCEL
-              </div>
-            </div>
-          </Animator>
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1rem',
+              padding: '1.2rem',
+              background: 'transparent',
+              color: '#BE501E',
+              fontFamily: 'FiraCode, monospace',
+              fontSize: '1rem',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                '--aug-border-bg': '#000000',
+                background: 'rgba(190, 80, 30, 0.1)',
+                color: '#000',
+                transform: 'translateY(-2px)'
+              }
+            }}
+          >
+            <span css={{
+              fontSize: '1.1rem',
+              fontWeight: 'bold'
+            }}>
+              CANCEL
+            </span>
+          </button>
         </div>
       </div>
     </div>
@@ -169,25 +160,64 @@ const DisconnectModal = ({ isOpen, onConfirm, onCancel }: { isOpen: boolean; onC
 }
 
 const WalletButton = (): ReactElement => {
-  const { wallet, disconnect, connecting, connected, select, wallets } = useWallet()
-  const { walletInfo, isLoading, networkStatus } = useSolana()
-  const svgRef = useRef<SVGSVGElement | null>(null)
+  const { wallet, disconnect, connecting, connected, select, wallets, publicKey } = useWallet()
+  const { connection } = useConnection()
+  // const { networkStatus } = useSolana()
   const [showDisconnectModal, setShowDisconnectModal] = useState(false)
   const [showCustomModal, setShowCustomModal] = useState(false)
+  const [buttonWidth, setButtonWidth] = useState(170)
+  const [solBalance, setSolBalance] = useState<number>(0)
+  const [tankBalance, setTankBalance] = useState<number>(0)
 
-  // Debug wallet state
+  // Calculate responsive button width
   useEffect(() => {
-    console.log('Wallet state:', { wallet: wallet?.adapter?.name, connecting, connected })
-    console.log('Available wallets:', wallets.map(w => w.adapter.name))
-    console.log('Is mobile:', window.innerWidth <= 768)
-    console.log('User agent:', navigator.userAgent)
-  }, [wallet, connecting, connected, wallets])
+    const calculateButtonWidth = () => {
+      const screenWidth = window.innerWidth
+      const isMobile = screenWidth <= 768
+
+      if (isMobile) {
+        // Mobile: use almost full width with padding
+        const padding = 46 // 23px padding on each side
+        const calculatedWidth = screenWidth - padding
+        setButtonWidth(Math.min(calculatedWidth, 380)) // Cap at 380px
+      } else {
+        // Desktop: fixed width
+        setButtonWidth(170)
+      }
+    }
+
+    calculateButtonWidth()
+    window.addEventListener('resize', calculateButtonWidth)
+    window.addEventListener('orientationchange', calculateButtonWidth)
+
+    return () => {
+      window.removeEventListener('resize', calculateButtonWidth)
+      window.removeEventListener('orientationchange', calculateButtonWidth)
+    }
+  }, [])
+
+  // Fetch wallet balances
+  useEffect(() => {
+    if (connected && publicKey) {
+      connection.getBalance(publicKey).then((balance: number) => {
+        setSolBalance(balance / LAMPORTS_PER_SOL)
+      }).catch(() => {})
+      // TODO: Fetch TANK token balance when available
+      setTankBalance(0)
+    } else {
+      setSolBalance(0)
+      setTankBalance(0)
+    }
+  }, [connected, publicKey, connection])
+
+  const formatBalance = (balance: number): string => {
+    return balance.toFixed(4)
+  }
 
   const handleClick = async () => {
     if (connected) {
       setShowDisconnectModal(true)
     } else {
-      console.log('Opening wallet modal...')
       // Always use our custom modal
       setShowCustomModal(true)
     }
@@ -204,79 +234,75 @@ const WalletButton = (): ReactElement => {
 
   const getButtonText = () => {
     if (connecting) return 'Connecting...'
-    if (isLoading && connected) return 'Loading...'
     if (connected && wallet) {
-      if (walletInfo) {
-        return `${walletInfo.balance.toFixed(3)} SOL`
-      }
-      return `${wallet.adapter.name} Connected`
+      return (
+        <div css={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '0.2rem'
+        }}>
+          <div css={{ fontSize: '0.7rem', opacity: 0.8 }}>
+            {wallet.adapter.name}
+          </div>
+          <div css={{
+            display: 'flex',
+            gap: '0.8rem',
+            fontSize: '0.75rem',
+            fontWeight: 'bold'
+          }}>
+            <span>SOL: {formatBalance(solBalance)}</span>
+            <span>TANK: {formatBalance(tankBalance)}</span>
+          </div>
+        </div>
+      )
     }
     return 'Connect Wallet'
   }
 
-  const getNetworkIndicator = () => {
-    if (!networkStatus) return null
+  // const getNetworkIndicator = () => {
+  //   if (!networkStatus) return null
 
-    const isDevnet = networkStatus.network === 'devnet'
-    const isUsingFallback = networkStatus.usingFallback
+  //   const isDevnet = networkStatus.network === 'devnet'
+  //   const isUsingFallback = networkStatus.usingFallback
 
-    return (
-      <div css={{
-        position: 'absolute',
-        top: -8,
-        right: -8,
-        backgroundColor: isDevnet ? '#f39c12' : '#2ecc71',
-        color: '#000',
-        fontSize: '0.6rem',
-        fontWeight: 'bold',
-        padding: '2px 6px',
-        borderRadius: '10px',
-        border: '1px solid #fff',
-        zIndex: 10,
-        boxShadow: '0 0 4px rgba(0,0,0,0.5)'
-      }}>
-        {isDevnet ? 'DEV' : 'MAIN'}
-        {isUsingFallback && ' (FB)'}
-      </div>
-    )
-  }
+  //   return (
+  //     <div css={{
+  //       position: 'absolute',
+  //       top: -8,
+  //       right: -8,
+  //       backgroundColor: isDevnet ? '#f39c12' : '#2ecc71',
+  //       color: '#000',
+  //       fontSize: '0.6rem',
+  //       fontWeight: 'bold',
+  //       padding: '2px 6px',
+  //       borderRadius: '10px',
+  //       border: '1px solid #fff',
+  //       zIndex: 10,
+  //       boxShadow: '0 0 4px rgba(0,0,0,0.5)'
+  //     }}>
+  //       {isDevnet ? 'DEV' : 'MAIN'}
+  //       {isUsingFallback && ' (FB)'}
+  //     </div>
+  //   )
+  // }
 
   return (
     <div>
       <Animator active={true}>
         <div
+          data-augmented-ui="br-clip bl-clip border"
           css={{
             position: 'relative',
-            width: 180,
-            height: 60,
+            width: buttonWidth,
+            height: connected ? 80 : 60,
             cursor: 'pointer',
+            background: 'transparent',
 
-            '[data-name=bg]': {
-              color: 'hsla(36, 48%, 6%, 0.10)',
-              filter: 'drop-shadow(0 0 4px hsla(38, 61%, 8%, 0.09))'
-            },
-            '[data-name=line]': {
-              color: connected ? '#2ECC71' : '#BE501E',
-              filter: connected
-                ? 'drop-shadow(0 0 2px #2ECC71)'
-                : 'drop-shadow(0 0 2px #BE501E)'
-            },
+            '--aug-border-all': '2px',
+            '--aug-border-bg': connected ? '#2ECC71' : '#BE501E',
+            '--aug-clip-size': '8px',
 
-            '&:hover [data-name=line]': {
-              color: '#000000',
-              filter: 'drop-shadow(0 0 3px #000000)'
-            }
-          }}
-          onClick={handleClick}
-        >
-          <FrameOctagon
-            elementRef={svgRef}
-            padding={3}
-            strokeWidth={2}
-          />
-          <div css={{
-            position: 'absolute',
-            inset: 4,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -284,16 +310,24 @@ const WalletButton = (): ReactElement => {
             fontFamily: connected ? 'FiraCode, monospace' : 'Nemesys, monospace',
             fontSize: '0.8rem',
             fontWeight: 'bold',
-            zIndex: 1,
             textAlign: 'center',
-            transition: 'color 0.3s ease',
-            ':hover': {
-              color: '#000000'
+            transition: 'all 0.3s ease',
+
+            '&:hover': {
+              '--aug-border-bg': '#000000',
+              color: '#000000',
+              background: 'transparent'
+            },
+
+            '@media (max-width: 768px)': {
+              fontSize: '0.7rem',
+              height: connected ? 70 : 50,
+              padding: '0.5rem 1rem'
             }
-          }}>
-            {getButtonText()}
-          </div>
-          {getNetworkIndicator()}
+          }}
+          onClick={handleClick}
+        >
+          {getButtonText()}
         </div>
       </Animator>
 
@@ -318,17 +352,21 @@ const WalletButton = (): ReactElement => {
           zIndex: 1000,
           padding: '2rem'
         }}>
-          <div css={{
-            background: 'linear-gradient(135deg, rgba(45, 49, 47, 0.95) 0%, rgba(30, 33, 31, 0.95) 100%)',
-            border: '2px solid #BE501E',
-            borderRadius: '12px',
-            padding: '3rem',
-            maxWidth: '500px',
-            width: '100%',
-            position: 'relative',
-            backdropFilter: 'blur(10px)',
-            boxShadow: '0 0 30px rgba(190, 80, 30, 0.3)'
-          }}>
+          <div
+            data-augmented-ui="tl-clip tr-clip b-clip-x border"
+            css={{
+              '--aug-tr': '25px',
+              '--aug-b-extend1': '50%',
+              '--aug-border-all': '7px',
+              '--aug-border-bg': '#BE501E',
+
+              background: 'black !important',
+              backgroundColor: 'black !important',
+              padding: '3rem',
+              maxWidth: '500px',
+              width: '100%',
+              position: 'relative'
+            }}>
             <button
               onClick={() => setShowCustomModal(false)}
               css={{
@@ -368,35 +406,6 @@ const WalletButton = (): ReactElement => {
                   key={walletOption.adapter.name}
                   onClick={async () => {
                     try {
-                      console.log(`Connecting to ${walletOption.adapter.name}...`)
-
-                      // For mobile devices, especially Phantom
-                      if (window.innerWidth <= 768 && walletOption.adapter.name === 'Phantom') {
-                        console.log('Mobile Phantom connection attempt...')
-
-                        // Try different mobile connection approaches
-                        try {
-                          // Method 1: Try direct wallet connection
-                          console.log('Trying direct wallet connection...')
-                          await walletOption.adapter.connect()
-                          setShowCustomModal(false)
-                          return
-                        } catch (directError) {
-                          console.log('Direct connection failed:', directError)
-
-                          // Method 2: Try universal link
-                          try {
-                            const universalLink = `https://phantom.app/ul/browse/${encodeURIComponent(window.location.href)}`
-                            console.log('Trying universal link:', universalLink)
-                            window.open(universalLink, '_blank')
-                            setShowCustomModal(false)
-                            return
-                          } catch (universalError) {
-                            console.log('Universal link failed, trying regular select:', universalError)
-                          }
-                        }
-                      }
-
                       select(walletOption.adapter.name)
                       setShowCustomModal(false)
                     } catch (error) {
@@ -404,14 +413,17 @@ const WalletButton = (): ReactElement => {
                       alert(`Connection failed: ${error}`)
                     }
                   }}
+                  data-augmented-ui="tl-clip br-clip border"
                   css={{
+                    '--aug-border-all': '2px',
+                    '--aug-border-bg': '#BE501E',
+                    '--aug-clip-size': '8px',
+
                     display: 'flex',
                     alignItems: 'center',
                     gap: '1rem',
                     padding: '1.2rem',
-                    background: 'rgba(190, 80, 30, 0.1)',
-                    border: '2px solid #BE501E',
-                    borderRadius: '8px',
+                    background: 'transparent',
                     color: '#BE501E',
                     fontFamily: 'FiraCode, monospace',
                     fontSize: '1rem',
@@ -419,10 +431,10 @@ const WalletButton = (): ReactElement => {
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
                     '&:hover': {
-                      background: '#BE501E',
+                      '--aug-border-bg': '#000000',
+                      background: 'rgba(190, 80, 30, 0.1)',
                       color: '#000',
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 4px 15px rgba(190, 80, 30, 0.4)'
+                      transform: 'translateY(-2px)'
                     }
                   }}
                 >

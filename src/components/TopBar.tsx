@@ -1,10 +1,11 @@
 
 
 import { type ReactElement, useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { Animator } from '@arwes/react-animator'
 import WalletButton from './WalletButton'
 import ContractAddressFrame from './ContractAddressFrame'
+import logoImage from '../assets/newlogo/outline new/Logo Outline ORANGE Long.png'
 
 const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(false)
@@ -162,19 +163,28 @@ const MenuButton = ({ children, active = true, onClick }: { children: string; ac
 
 const TopBar = (): ReactElement => {
   const navigate = useNavigate()
+  const location = useLocation()
   const isMobile = useIsMobile()
 
+  // Determine if this page should have scrolling TopBar on mobile
+  const isScrollingPage = ['/comms', '/deployment'].includes(location.pathname)
+  const mobilePosition = isMobile && isScrollingPage ? 'absolute' : 'fixed'
+
+
   return (
-    <div css={{
-      position: 'absolute',
+    <div data-header="true" css={{
+      position: mobilePosition,
       top: 0,
       left: 0,
       right: 0,
       zIndex: 10,
       pointerEvents: 'none',
+      background: '#191A19',
 
       /* Desktop Layout */
       '@media (min-width: 769px)': {
+        position: 'fixed', // Always fixed on desktop
+
         height: '140px',
         display: 'flex',
         alignItems: 'center',
@@ -204,7 +214,7 @@ const TopBar = (): ReactElement => {
         }
       }}>
         <img
-          src="/Logo Outline ORANGE Long.png"
+          src={logoImage}
           alt="Tank Bank Logo"
           css={{
             width: '300px',
@@ -212,13 +222,16 @@ const TopBar = (): ReactElement => {
             filter: 'drop-shadow(0 0 10px rgba(168, 84, 14, 0.3))',
             '@media (max-width: 768px)': {
               width: '100%',
-              maxWidth: '350px'
+              maxWidth: '350px',
+              marginTop: '1rem'
             }
           }}
         />
         <div css={{
           '@media (max-width: 768px)': {
-            display: 'none'
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center'
           }
         }}>
           <ContractAddressFrame />
@@ -239,6 +252,7 @@ const TopBar = (): ReactElement => {
         <MenuButton onClick={() => navigate('/')}>Command</MenuButton>
         <MenuButton onClick={() => navigate('/deployment')}>{isMobile ? 'OPS' : 'Operations'}</MenuButton>
         <MenuButton onClick={() => navigate('/comms')}>Comm</MenuButton>
+        
       </div>
 
       {/* Desktop Wallet Button */}
@@ -270,6 +284,7 @@ const TopBar = (): ReactElement => {
         <MenuButton onClick={() => navigate('/')}>Command</MenuButton>
         <MenuButton onClick={() => navigate('/deployment')}>{isMobile ? 'OPS' : 'Operations'}</MenuButton>
         <MenuButton onClick={() => navigate('/comms')}>Comm</MenuButton>
+       
       </div>
 
       {/* Mobile Wallet Button */}
@@ -280,11 +295,12 @@ const TopBar = (): ReactElement => {
           justifyContent: 'center',
           width: '100%',
           pointerEvents: 'auto',
-          paddingTop: '1rem'
+          paddingTop: '0.05rem'
         }
       }}>
         <WalletButton />
       </div>
+
     </div>
   )
 }

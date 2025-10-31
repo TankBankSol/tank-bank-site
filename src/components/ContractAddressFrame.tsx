@@ -8,39 +8,76 @@ const ContractAddressFrame = (): ReactElement => {
 
   // Replace with your actual contract address
   const contractAddress = "TANK123456789ABCDEF"
-  const displayAddress = `${contractAddress.slice(0, 4)}...${contractAddress.slice(-4)}`
+  // const displayAddress = `${contractAddress.slice(0, 4)}...${contractAddress.slice(-4)}`
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(contractAddress)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000) // Reset after 2 seconds
+      // Try modern clipboard API first
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(contractAddress)
+        setCopied(true)
+        setTimeout(() => setCopied(false), 2000)
+      } else {
+        // Fallback for mobile/older browsers
+        const textArea = document.createElement('textarea')
+        textArea.value = contractAddress
+        textArea.style.position = 'fixed'
+        textArea.style.left = '-999999px'
+        textArea.style.top = '-999999px'
+        document.body.appendChild(textArea)
+        textArea.focus()
+        textArea.select()
+
+        const successful = document.execCommand('copy')
+        document.body.removeChild(textArea)
+
+        if (successful) {
+          setCopied(true)
+          setTimeout(() => setCopied(false), 2000)
+        } else {
+          // Final fallback - show alert with address
+          alert(`Contract Address: ${contractAddress}`)
+        }
+      }
     } catch (err) {
       console.error('Failed to copy: ', err)
+      // Fallback - show alert with address
+      alert(`Contract Address: ${contractAddress}`)
     }
   }
 
   return (
     <Animator active={true}>
         <div
+          data-augmented-ui="tl-clip tr-clip border"
           css={{
             position: 'relative',
             width: 275,
             height: 40,
             lineHeight: '40px',
-            textAlign: 'left',
+            textAlign: 'center',
             color: '#BE501E',
-            transition: 'color 0.3s ease',
+            transition: 'all 0.3s ease',
             cursor: 'pointer',
             padding: '0 12px',
-            border: '2px solid #BE501E',
-            borderRadius: '4px',
-            backgroundColor: 'rgba(190, 80, 30, 0.1)',
+            background: 'transparent',
+
+            '--aug-border-all': '2px',
+            '--aug-border-bg': '#BE501E',
+            '--aug-clip-size': '6px',
+
+            '@media (max-width: 768px)': {
+              width: '100%',
+              maxWidth: '380px',
+              height: '35px',
+              lineHeight: '35px',
+              fontSize: '0.8rem'
+            },
 
             '&:hover': {
+              '--aug-border-bg': '#000000',
               color: '#000000',
-              borderColor: '#000000',
-              backgroundColor: 'rgba(0, 0, 0, 0.1)',
+              background: 'transparent',
             }
           }}
           onClick={handleCopy}
@@ -48,22 +85,18 @@ const ContractAddressFrame = (): ReactElement => {
           <div css={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between',
+            justifyContent: 'center',
             fontFamily: 'FiraCode, monospace',
             fontSize: '0.7rem',
             fontWeight: 'bold',
-            height: '100%'
+            height: '100%',
+            position: 'relative'
           }}>
-            <div css={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px'
-            }}>
-              <span>Contact Address:</span>
-              <span>{displayAddress}</span>
-            </div>
+            <span>{contractAddress}</span>
 
             <div css={{
+              position: 'absolute',
+              right: '8px',
               fontSize: '0.6rem',
               opacity: 0.8
             }}>
