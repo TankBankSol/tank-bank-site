@@ -200,8 +200,11 @@ const WalletButton = (): ReactElement => {
   useEffect(() => {
     if (connected && publicKey) {
       connection.getBalance(publicKey).then((balance: number) => {
-        setSolBalance(balance / LAMPORTS_PER_SOL)
-      }).catch(() => {})
+        const solAmount = balance / LAMPORTS_PER_SOL
+        setSolBalance(solAmount)
+      }).catch((error) => {
+        console.error('❌ Balance fetch error:', error)
+      })
       // TODO: Fetch TANK token balance when available
       setTankBalance(0)
     } else {
