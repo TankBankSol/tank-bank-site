@@ -10,7 +10,7 @@ if (!HELIUS_API_KEY) {
 }
 
 // Helius RPC endpoint
-const HELIUS_RPC_URL = `https://devnet.helius-rpc.com/?api-key=${HELIUS_API_KEY}`
+const HELIUS_RPC_URL = `https://mainnet.helius-rpc.com/?api-key=${HELIUS_API_KEY}`
 
 // Fallback to public RPC if Helius fails
 const FALLBACK_RPC_URL = clusterApiUrl(SOLANA_NETWORK as 'devnet' | 'testnet' | 'mainnet-beta')
