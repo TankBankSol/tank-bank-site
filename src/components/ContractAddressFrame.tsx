@@ -7,7 +7,7 @@ const ContractAddressFrame = (): ReactElement => {
   const [copied, setCopied] = useState(false)
 
   // Replace with your actual contract address
-  const contractAddress = "TANK123456789ABCDEF"
+  const contractAddress = "Not Yet Launched"
   // const displayAddress = `${contractAddress.slice(0, 4)}...${contractAddress.slice(-4)}`
 
   const handleCopy = async () => {

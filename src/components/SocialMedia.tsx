@@ -155,6 +155,13 @@ const SocialMedia = (): ReactElement => {
           },
         },
 
+        '&.pumpfun a': {
+          color: '#666666', // Greyed out color
+          '& span': {
+            background: '#666666', // Greyed out border color
+          },
+        },
+
         '&.pumpfun a:hover': {
           color: '#000000',
           '& span': {

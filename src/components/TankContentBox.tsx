@@ -1,6 +1,7 @@
 
 
 import { type ReactElement } from 'react'
+import tankImage from '../assets/lowangleTankv2.png'
 
 const TankContentBox = (): ReactElement => {
   return (
@@ -13,7 +14,7 @@ const TankContentBox = (): ReactElement => {
       height: '58.59375vh',
       maxWidth: '937.5px',
       maxHeight: '703.125px',
-      backgroundImage: 'url(/src/assets/lowangleTankv2.png)',
+      backgroundImage: `url(${tankImage})`,
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'center',
       backgroundSize: 'contain',

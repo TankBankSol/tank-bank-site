@@ -167,7 +167,7 @@ const WalletButton = (): ReactElement => {
   const [showCustomModal, setShowCustomModal] = useState(false)
   const [buttonWidth, setButtonWidth] = useState(170)
   const [solBalance, setSolBalance] = useState<number>(0)
-  const [tankBalance, setTankBalance] = useState<number>(0)
+  // const [tankBalance, setTankBalance] = useState<number>(0)
 
   // Calculate responsive button width
   useEffect(() => {
@@ -206,10 +206,10 @@ const WalletButton = (): ReactElement => {
         console.error('❌ Balance fetch error:', error)
       })
       // TODO: Fetch TANK token balance when available
-      setTankBalance(0)
+      // setTankBalance(0)
     } else {
       setSolBalance(0)
-      setTankBalance(0)
+      // setTankBalance(0)
     }
   }, [connected, publicKey, connection])
 
@@ -255,7 +255,7 @@ const WalletButton = (): ReactElement => {
             fontWeight: 'bold'
           }}>
             <span>SOL: {formatBalance(solBalance)}</span>
-            <span>TANK: {formatBalance(tankBalance)}</span>
+            {/* <span>TANK: {formatBalance(tankBalance)}</span> */}
           </div>
         </div>
       )
