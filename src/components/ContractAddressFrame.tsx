@@ -60,7 +60,7 @@ const ContractAddressFrame = (): ReactElement => {
             transition: 'all 0.3s ease',
             cursor: 'pointer',
             padding: '0 12px',
-            background: 'transparent',
+            background: 'rgba(0, 0, 0, 0.65)',
 
             '--aug-border-all': '2px',
             '--aug-border-bg': '#BE501E',
@@ -77,7 +77,7 @@ const ContractAddressFrame = (): ReactElement => {
             '&:hover': {
               '--aug-border-bg': '#000000',
               color: '#000000',
-              background: 'transparent',
+              background: 'rgba(190, 80, 30, 0.1)',
             }
           }}
           onClick={handleCopy}

@@ -5,6 +5,7 @@ import { type ReactElement, useState, useEffect } from 'react'
 import { Animator } from '@arwes/react-animator'
 import { useHeaderHeight } from '../hooks/useHeaderHeight'
 import OperationCard from '../components/OperationCard'
+import OperationsSidePanel from '../components/OperationsSidePanel'
 
 const OperationsPage = (): ReactElement => {
   const [isMobile, setIsMobile] = useState(false)
@@ -27,25 +28,31 @@ const OperationsPage = (): ReactElement => {
   ]
 
   return (
-    <div css={{
-      minHeight: '100vh',
-      padding: `${isMobile ? headerHeight + 20 : 200}px 1rem 2rem`,
-      color: '#BE501E',
-      fontFamily: 'FiraCode, monospace',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      gap: '2rem'
-    }}>
+    <>
+      <OperationsSidePanel isMobile={isMobile} activeSection="mission-center" />
+
       <div css={{
-        maxWidth: '800px',
-        width: '100%'
+        minHeight: '100vh',
+        padding: `${isMobile ? headerHeight + 20 : 200}px 1rem 2rem`,
+        paddingLeft: isMobile ? '1rem' : '300px', // Make room for desktop side panel
+        paddingRight: isMobile ? '1rem' : '165px', // Add right padding to center content better
+        color: '#BE501E',
+        fontFamily: 'FiraCode, monospace',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '2rem'
       }}>
-        <Animator active={true}>
-          <OperationCard operations={operations} isMobile={isMobile} />
-        </Animator>
+        <div css={{
+          maxWidth: '800px',
+          width: '100%'
+        }}>
+          <Animator active={true}>
+            <OperationCard operations={operations} isMobile={isMobile} />
+          </Animator>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

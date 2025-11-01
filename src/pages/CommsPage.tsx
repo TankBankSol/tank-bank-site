@@ -29,6 +29,8 @@ const CommsPage = (): ReactElement => {
     <div css={{
       minHeight: '100vh',
       padding: `${isMobile ? headerHeight + 20 : 200}px 1rem 2rem`,
+      paddingLeft: isMobile ? '1rem' : '300px', // Make room for desktop side panel
+      paddingRight: isMobile ? '1rem' : '165px', // Add right padding to center content better
       color: '#BE501E',
       fontFamily: 'FiraCode, monospace',
       display: 'flex',

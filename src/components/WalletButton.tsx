@@ -300,7 +300,7 @@ const WalletButton = (): ReactElement => {
             width: buttonWidth,
             height: connected ? 80 : 60,
             cursor: 'pointer',
-            background: 'transparent',
+            background: 'rgba(0, 0, 0, 0.65)',
 
             '--aug-border-all': '2px',
             '--aug-border-bg': connected ? '#2ECC71' : '#BE501E',
@@ -319,7 +319,7 @@ const WalletButton = (): ReactElement => {
             '&:hover': {
               '--aug-border-bg': '#000000',
               color: '#000000',
-              background: 'transparent'
+              background: 'rgba(190, 80, 30, 0.1)'
             },
 
             '@media (max-width: 768px)': {

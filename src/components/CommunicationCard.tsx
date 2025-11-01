@@ -14,7 +14,7 @@ const CommunicationCard = ({ features, isMobile }: CommunicationCardProps): Reac
         '--aug-border-bg': '#BE501E',
         '--aug-clip-size': '15px',
 
-        background: '#191A19',
+        background: 'rgba(0, 0, 0, 0.65)',
         padding: '2rem',
         boxShadow: '0 0 30px rgba(190, 80, 30, 0.3)',
 

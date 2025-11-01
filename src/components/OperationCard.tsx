@@ -14,7 +14,7 @@ const OperationCard = ({ operations, isMobile }: OperationCardProps): ReactEleme
         '--aug-border-bg': '#BE501E',
         '--aug-clip-size': '15px',
 
-        background: '#191A19',
+        background: 'rgba(0, 0, 0, 0.65)',
         padding: '2rem',
         boxShadow: '0 0 30px rgba(190, 80, 30, 0.3)',
 
@@ -88,8 +88,8 @@ const OperationCard = ({ operations, isMobile }: OperationCardProps): ReactEleme
 
                 ...(isLinked ? {
                   '&:hover': {
-                    '--aug-border-bg': '#BE501E',
-                    background: 'rgba(190, 80, 30, 0.2)',
+                    '--aug-border-bg': '#000000',
+                    background: 'rgba(190, 80, 30, 0.1)',
                     color: '#000000',
                     transform: 'translateY(-2px)',
                     boxShadow: '0 4px 8px rgba(190, 80, 30, 0.3)'
