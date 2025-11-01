@@ -29,7 +29,8 @@ const OperationsPage = (): ReactElement => {
 
   return (
     <>
-      <OperationsSidePanel isMobile={isMobile} activeSection="mission-center" />
+      {/* Desktop side panel only */}
+      {!isMobile && <OperationsSidePanel isMobile={isMobile} activeSection="mission-center" />}
 
       <div css={{
         minHeight: '100vh',
@@ -43,6 +44,7 @@ const OperationsPage = (): ReactElement => {
         alignItems: 'center',
         gap: '2rem'
       }}>
+
         <div css={{
           maxWidth: '800px',
           width: '100%'

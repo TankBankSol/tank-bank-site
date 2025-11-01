@@ -1,4 +1,4 @@
-import { type ReactElement, useState } from 'react'
+import { type ReactElement, useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Animator } from '@arwes/react-animator'
 import { useHeaderHeight } from '../hooks/useHeaderHeight'
@@ -13,9 +13,24 @@ const OperationsSidePanel = ({ isMobile, activeSection = 'mission-center' }: Ope
   const navigate = useNavigate()
   const location = useLocation()
   const headerHeight = useHeaderHeight()
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsCollapsed(true)
+      }
+    }
+
+    if (!isCollapsed && isMobile) {
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isCollapsed, isMobile])
 
   const navigationLinks = [
-    { id: 'mission-center', label: 'Mission Center', path: '/deployment' },
+    { id: 'mission-center', label: 'Mission Center', path: '/operations' },
     { id: 'armory', label: 'Armory', path: '/armory' }
   ]
 
@@ -30,7 +45,7 @@ const OperationsSidePanel = ({ isMobile, activeSection = 'mission-center' }: Ope
 
   // Determine active section based on current route
   const getCurrentActiveSection = () => {
-    if (location.pathname === '/deployment') return 'mission-center'
+    if (location.pathname === '/operations') return 'mission-center'
     if (location.pathname === '/armory') return 'armory'
     return activeSection
   }
@@ -39,7 +54,8 @@ const OperationsSidePanel = ({ isMobile, activeSection = 'mission-center' }: Ope
   if (isMobile && isCollapsed) {
     return (
       <Animator active={true}>
-        <button
+        <div>
+          <button
           onClick={() => setIsCollapsed(false)}
           data-augmented-ui="tl-clip br-clip border"
           css={{
@@ -47,8 +63,8 @@ const OperationsSidePanel = ({ isMobile, activeSection = 'mission-center' }: Ope
             top: `${headerHeight - 35}px`, // Move up to avoid overlapping
             left: '50%',
             transform: 'translateX(-50%)',
-            width: 'calc(100% - 6.5rem)',
-            zIndex: 100,
+            width: 'calc(100vw - 46px)', // Match wallet button width
+            zIndex: 50,
 
             '--aug-border-all': '2px',
             '--aug-border-bg': '#BE501E',
@@ -61,7 +77,6 @@ const OperationsSidePanel = ({ isMobile, activeSection = 'mission-center' }: Ope
             fontWeight: 'bold',
             padding: '1rem',
             cursor: 'pointer',
-            transition: 'all 0.3s ease',
             textAlign: 'center',
 
             '&:hover': {
@@ -73,6 +88,7 @@ const OperationsSidePanel = ({ isMobile, activeSection = 'mission-center' }: Ope
         >
           ≡ OPERATIONS
         </button>
+        </div>
       </Animator>
     )
   }
@@ -81,68 +97,28 @@ const OperationsSidePanel = ({ isMobile, activeSection = 'mission-center' }: Ope
   if (isMobile && !isCollapsed) {
     return (
       <>
-        {/* Mobile Panel - No backdrop, positioned under topbar */}
-        <Animator active={true}>
-          <div
-            data-augmented-ui="b-clip-x border"
+        {/* Mobile Dropdown - positioned directly below operations button */}
+        <div
+            ref={dropdownRef}
+            data-augmented-ui="tl-clip tr-clip border"
             css={{
-              position: 'fixed',
-              top: `${headerHeight}px`, // Under the topbar
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: 'calc(100% - 4rem)', // Reduced width with more margins
-              maxWidth: '400px', // Maximum width for better mobile fit
-              zIndex: 100, // Higher than topbar (10) but reasonable
+              position: 'relative',
+              width: 'calc(100vw - 46px)', // Match wallet button width calculation
+              maxWidth: '380px', // Match wallet button max width
+              margin: '0 auto', // Center the dropdown
+              marginBottom: '1rem', // Space below dropdown
 
-              '--aug-b-extend1': '50%',
+              '--aug-tl': '6px',
+              '--aug-tr': '6px',
               '--aug-border-all': '2px',
               '--aug-border-bg': '#BE501E',
 
-              background: 'rgba(0, 0, 0, 0.95)',
-              padding: '2rem 1.5rem',
-              backdropFilter: 'blur(10px)',
-              borderBottom: '2px solid #BE501E',
-              // Ensure it creates its own stacking context
-              isolation: 'isolate'
+              background: 'rgba(0, 0, 0, 0.85)',
+              padding: '1.5rem',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
             }}
           >
-            <div css={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '1.5rem'
-            }}>
-              <h3 css={{
-                color: '#BE501E',
-                fontFamily: 'Nemesys, serif',
-                fontSize: '1.5rem',
-                fontWeight: 'bold',
-                margin: 0
-              }}>
-                Operations Menu
-              </h3>
-
-              <button
-                onClick={() => setIsCollapsed(true)}
-                css={{
-                  background: 'transparent',
-                  border: 'none',
-                  color: '#BE501E',
-                  fontSize: '1.2rem',
-                  cursor: 'pointer',
-                  padding: '0.5rem',
-                  transition: 'all 0.3s ease',
-                  '&:hover': {
-                    color: '#000000',
-                    transform: 'scale(1.1)'
-                  }
-                }}
-              >
-                ✕
-              </button>
-            </div>
-
-            <nav css={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <nav css={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
               {navigationLinks.map((link) => {
                 const isActive = getCurrentActiveSection() === link.id
                 return (
@@ -151,24 +127,26 @@ const OperationsSidePanel = ({ isMobile, activeSection = 'mission-center' }: Ope
                     onClick={() => handleLinkClick(link.path)}
                     data-augmented-ui="tl-clip br-clip border"
                     css={{
-                      '--aug-border-all': '2px',
+                      '--aug-border-all': '1px',
                       '--aug-border-bg': isActive ? '#2ECC71' : '#BE501E',
-                      '--aug-clip-size': '6px',
+                      '--aug-clip-size': '4px',
 
                       background: 'transparent',
                       color: isActive ? '#2ECC71' : '#BE501E',
                       fontFamily: 'FiraCode, monospace',
                       fontSize: '0.9rem',
                       fontWeight: 'bold',
-                      padding: '1rem 1.5rem',
+                      padding: '0.8rem 1rem',
                       cursor: 'pointer',
                       transition: 'all 0.3s ease',
-                      textAlign: 'center',
+                      textAlign: 'left',
 
                       '&:hover': {
                         '--aug-border-bg': '#000000',
                         color: '#000000',
-                        background: 'rgba(190, 80, 30, 0.1)'
+                        background: 'rgba(190, 80, 30, 0.1)',
+                        transform: 'translateX(5px)',
+                        boxShadow: '0 2px 6px rgba(190, 80, 30, 0.3)'
                       }
                     }}
                   >
@@ -178,7 +156,6 @@ const OperationsSidePanel = ({ isMobile, activeSection = 'mission-center' }: Ope
               })}
             </nav>
           </div>
-        </Animator>
       </>
     )
   }
@@ -232,7 +209,8 @@ const OperationsSidePanel = ({ isMobile, activeSection = 'mission-center' }: Ope
                     '--aug-border-bg': '#000000',
                     color: '#000000',
                     background: 'rgba(190, 80, 30, 0.1)',
-                    transform: 'translateX(5px)'
+                    transform: 'translateX(5px)',
+                    boxShadow: '0 4px 8px rgba(190, 80, 30, 0.3)'
                   }
                 }}
               >

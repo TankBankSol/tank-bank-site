@@ -7,7 +7,7 @@ import { WalletContextProvider } from './components/WalletProvider'
 import HomePage from './pages/HomePage'
 import CommandPage from './pages/CommandPage'
 import OperationsPage from './pages/OperationsPage'
-import ArmoryPage from './pages/WorkshopPage'
+import ArmoryPage from './pages/ArmoryPage'
 import CommsPage from './pages/CommsPage'
 import './App.css'
 import './wallet-adapter.css'
@@ -51,7 +51,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/command" element={<CommandPage />} />
-            <Route path="/deployment" element={<OperationsPage />} />
+            <Route path="/operations" element={<OperationsPage />} />
             <Route path="/armory" element={<ArmoryPage />} />
             <Route path="/comms" element={<CommsPage />} />
           </Routes>

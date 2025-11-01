@@ -20,7 +20,8 @@ const ArmoryPage = (): ReactElement => {
 
   return (
     <>
-      <OperationsSidePanel isMobile={isMobile} activeSection="armory" />
+      {/* Desktop side panel only */}
+      {!isMobile && <OperationsSidePanel isMobile={isMobile} activeSection="armory" />}
 
       <div css={{
         minHeight: '100vh',
@@ -34,6 +35,7 @@ const ArmoryPage = (): ReactElement => {
         alignItems: 'center',
         gap: '2rem'
       }}>
+
         <div css={{
           maxWidth: '800px',
           width: '100%'

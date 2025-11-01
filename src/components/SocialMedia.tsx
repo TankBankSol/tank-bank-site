@@ -24,7 +24,7 @@ const SocialMedia = (): ReactElement => {
   const isMobile = useIsMobile()
 
   // Determine if this page should have scrolling SocialMedia on mobile
-  const isScrollingPage = ['/comms', '/deployment'].includes(location.pathname)
+  const isScrollingPage = ['/comms', '/operations'].includes(location.pathname)
   const mobilePosition = isMobile && isScrollingPage ? 'static' : 'fixed'
 
   return (

@@ -5,6 +5,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { Animator } from '@arwes/react-animator'
 import WalletButton from './WalletButton'
 import ContractAddressFrame from './ContractAddressFrame'
+import OperationsSidePanel from './OperationsSidePanel'
 import logoImage from '../assets/newlogo/outline new/Logo Outline ORANGE Long.png'
 
 const useIsMobile = () => {
@@ -167,7 +168,7 @@ const TopBar = (): ReactElement => {
   const isMobile = useIsMobile()
 
   // Determine if this page should have scrolling TopBar on mobile
-  const isScrollingPage = ['/comms', '/deployment'].includes(location.pathname)
+  const isScrollingPage = ['/comms', '/operations'].includes(location.pathname)
   const mobilePosition = isMobile && isScrollingPage ? 'absolute' : 'fixed'
 
 
@@ -250,7 +251,7 @@ const TopBar = (): ReactElement => {
         }
       }}>
         <MenuButton onClick={() => navigate('/')}>Command</MenuButton>
-        <MenuButton onClick={() => navigate('/deployment')}>{isMobile ? 'OPS' : 'Operations'}</MenuButton>
+        <MenuButton onClick={() => navigate('/operations')}>{isMobile ? 'OPS' : 'Operations'}</MenuButton>
         <MenuButton onClick={() => navigate('/comms')}>Comm</MenuButton>
         
       </div>
@@ -282,7 +283,7 @@ const TopBar = (): ReactElement => {
         }
       }}>
         <MenuButton onClick={() => navigate('/')}>Command</MenuButton>
-        <MenuButton onClick={() => navigate('/deployment')}>{isMobile ? 'OPS' : 'Operations'}</MenuButton>
+        <MenuButton onClick={() => navigate('/operations')}>{isMobile ? 'OPS' : 'Operations'}</MenuButton>
         <MenuButton onClick={() => navigate('/comms')}>Comm</MenuButton>
        
       </div>
@@ -295,11 +296,28 @@ const TopBar = (): ReactElement => {
           justifyContent: 'center',
           width: '100%',
           pointerEvents: 'auto',
-          paddingTop: '0.05rem'
+          paddingTop: '0.05rem',
+          paddingBottom: '0.3rem'
         }
       }}>
         <WalletButton />
       </div>
+
+      {/* Mobile Operations Panel - Only on operations/armory pages */}
+      {isMobile && ['/operations', '/armory'].includes(location.pathname) && (
+        <div css={{
+          display: 'flex',
+          justifyContent: 'center',
+          width: '100%',
+          pointerEvents: 'auto',
+          paddingTop: '0.5rem'
+        }}>
+          <OperationsSidePanel
+            isMobile={isMobile}
+            activeSection={location.pathname === '/operations' ? 'mission-center' : 'armory'}
+          />
+        </div>
+      )}
 
     </div>
   )

@@ -1,4 +1,4 @@
-import { type ReactElement, useEffect, useRef } from 'react'
+import { type ReactElement, useEffect, useRef, useState } from 'react'
 
 // Declare global VANTA
 declare global {
@@ -17,6 +17,7 @@ const AnimatedBackground = ({
 }: AnimatedBackgroundProps): ReactElement => {
   const vantaRef = useRef<HTMLDivElement>(null)
   const vantaEffect = useRef<any>(null)
+  const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
     const getVantaSettings = () => {
@@ -58,6 +59,9 @@ const AnimatedBackground = ({
           backgroundColor: backgroundColor,
           color: 0xff6600
         })
+
+        // Set loaded state after initialization
+        setTimeout(() => setIsLoaded(true), 200)
       } else if (!window.VANTA || !window.THREE) {
         setTimeout(initVanta, 100)
       }
@@ -109,7 +113,10 @@ const AnimatedBackground = ({
         inset: 0,
         width: '100vw',
         height: '100vh',
-        zIndex: -1
+        zIndex: -1,
+        backgroundColor: backgroundColor, // Fallback color to prevent white flash
+        opacity: isLoaded ? 1 : 0,
+        transition: 'opacity 0.5s ease-in-out'
       }}
     />
   )
