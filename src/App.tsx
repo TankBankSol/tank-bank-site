@@ -3,7 +3,9 @@ import { useEffect } from 'react'
 import AnimatedBackground from './components/AnimatedBackground'
 import TopBar from './components/TopBar'
 import SocialMedia from './components/SocialMedia'
+import LoadingPage from './components/LoadingPage'
 import { WalletContextProvider } from './components/WalletProvider'
+import { usePageLoading } from './hooks/usePageLoading'
 import HomePage from './pages/HomePage'
 import CommandPage from './pages/CommandPage'
 import OperationsPage from './pages/OperationsPage'
@@ -38,24 +40,34 @@ const MobileScrollController = () => {
   return null
 }
 
-function App() {
+const AppContent = () => {
+  const { isLoading, completeLoading } = usePageLoading()
 
+  return (
+    <>
+      <MobileScrollController />
+      <AnimatedBackground />
+      <TopBar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/command" element={<CommandPage />} />
+        <Route path="/operations" element={<OperationsPage />} />
+        <Route path="/armory" element={<ArmoryPage />} />
+        <Route path="/comms" element={<CommsPage />} />
+      </Routes>
+      <SocialMedia />
+      <LoadingPage isLoading={isLoading} onComplete={completeLoading} />
+    </>
+  )
+}
+
+function App() {
   return (
     <>
       <div className="crt-container"></div>
       <Router>
         <WalletContextProvider>
-          <MobileScrollController />
-          <AnimatedBackground />
-          <TopBar />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/command" element={<CommandPage />} />
-            <Route path="/operations" element={<OperationsPage />} />
-            <Route path="/armory" element={<ArmoryPage />} />
-            <Route path="/comms" element={<CommsPage />} />
-          </Routes>
-          <SocialMedia />
+          <AppContent />
         </WalletContextProvider>
       </Router>
     </>
