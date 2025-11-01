@@ -122,7 +122,13 @@ const LoadingPage = ({ isLoading, onComplete }: LoadingPageProps): ReactElement 
             maxWidth: '90vw',
             '@media (max-width: 768px)': {
               padding: '1.5rem',
-              width: '350px'
+              width: '85vw',
+              maxWidth: '350px'
+            },
+            '@media (max-width: 480px)': {
+              padding: '1rem',
+              width: '90vw',
+              maxWidth: '320px'
             }
           }}
         >
