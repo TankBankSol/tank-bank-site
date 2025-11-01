@@ -36,7 +36,7 @@ const OperationCard = ({ operations, isMobile }: OperationCardProps): ReactEleme
           fontSize: '1.2rem'
         }
       }}>
-        Operations Center
+        Mission Center
       </h2>
 
       <p css={{
@@ -47,7 +47,7 @@ const OperationCard = ({ operations, isMobile }: OperationCardProps): ReactEleme
         marginBottom: '2rem',
         textAlign: 'center'
       }}>
-        Select an active operation below to view details and join the mission.
+        Select an active mission and join the fight.
       </p>
 
       <div css={{
@@ -110,7 +110,7 @@ const OperationCard = ({ operations, isMobile }: OperationCardProps): ReactEleme
         fontSize: isMobile ? '0.8rem' : '0.9rem',
         fontStyle: 'italic'
       }}>
-        Future Commanders stand by for orders.
+        Commanders execute the mission!
       </div>
     </div>
   )

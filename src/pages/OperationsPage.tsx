@@ -22,8 +22,8 @@ const OperationsPage = (): ReactElement => {
   }, [])
 
   const operations = [
-    { name: "Operation Night Forge", url: "#" },
-    { name: "Operation Black Phantom", url: "#" }
+    { name: "Night Forge", url: "#" },
+    { name: "Black Phantom", url: "#" }
   ]
 
   return (
