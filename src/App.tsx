@@ -13,6 +13,7 @@ import ArmoryPage from './pages/ArmoryPage'
 import CommsPage from './pages/CommsPage'
 import './App.css'
 import './wallet-adapter.css'
+import './styles/animations.css'
 
 const MobileScrollController = () => {
   const location = useLocation()

@@ -8,6 +8,7 @@ interface OperationCardProps {
 const OperationCard = ({ operations, isMobile }: OperationCardProps): ReactElement => {
   return (
     <div
+      className="animate-hidden animate-border-grow"
       data-augmented-ui="tl-clip tr-clip b-clip-x bl-2-clip-x br-2-clip-x border"
       css={{
         '--aug-border-all': '3px',
@@ -16,7 +17,6 @@ const OperationCard = ({ operations, isMobile }: OperationCardProps): ReactEleme
 
         background: 'rgba(0, 0, 0, 0.65)',
         padding: '2rem',
-        boxShadow: '0 0 30px rgba(190, 80, 30, 0.3)',
 
         '@media (max-width: 768px)': {
           padding: '1.5rem',
@@ -24,6 +24,7 @@ const OperationCard = ({ operations, isMobile }: OperationCardProps): ReactEleme
         }
       }}
     >
+      <div className="animate-hidden animate-content-delayed">
       <h2 css={{
         color: '#BE501E',
         fontFamily: 'Nemesys, serif',
@@ -111,6 +112,7 @@ const OperationCard = ({ operations, isMobile }: OperationCardProps): ReactEleme
         fontStyle: 'italic'
       }}>
         Commanders execute the mission!
+      </div>
       </div>
     </div>
   )

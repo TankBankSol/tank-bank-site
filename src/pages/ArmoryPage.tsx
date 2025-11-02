@@ -1,11 +1,9 @@
 import { type ReactElement, useState, useEffect } from 'react'
-import { Animator } from '@arwes/react-animator'
 import { useHeaderHeight } from '../hooks/useHeaderHeight'
 import OperationsSidePanel from '../components/OperationsSidePanel'
 
 const ArmoryPage = (): ReactElement => {
   const [isMobile, setIsMobile] = useState(false)
-  const [mounted, setMounted] = useState(false)
   const headerHeight = useHeaderHeight()
 
   useEffect(() => {
@@ -16,10 +14,6 @@ const ArmoryPage = (): ReactElement => {
     checkMobile()
     window.addEventListener('resize', checkMobile)
     return () => window.removeEventListener('resize', checkMobile)
-  }, [])
-
-  useEffect(() => {
-    setMounted(true)
   }, [])
 
 
@@ -45,22 +39,22 @@ const ArmoryPage = (): ReactElement => {
           maxWidth: '800px',
           width: '100%'
         }}>
-          <Animator active={mounted}>
-            <div
-              data-augmented-ui="tl-clip tr-clip b-clip-x border"
-              css={{
-                '--aug-tr': '20px',
-                '--aug-tl': '8px',
-                '--aug-b-extend1': '40%',
-                '--aug-border-all': '3px',
-                '--aug-border-bg': '#BE501E',
+          <div
+            className="animate-hidden animate-tactical-zoom"
+            data-augmented-ui="tl-clip tr-clip b-clip-x border"
+            css={{
+              '--aug-tr': '20px',
+              '--aug-tl': '8px',
+              '--aug-b-extend1': '40%',
+              '--aug-border-all': '3px',
+              '--aug-border-bg': '#BE501E',
 
-                background: 'rgba(0, 0, 0, 0.65)',
-                padding: '3rem',
-                textAlign: 'center',
-                marginBottom: '3rem'
-              }}
-            >
+              background: 'rgba(0, 0, 0, 0.65)',
+              padding: '3rem',
+              textAlign: 'center',
+              marginBottom: '3rem'
+            }}
+          >
               <h2 css={{
                 color: '#BE501E',
                 fontFamily: 'Nemesys, serif',
@@ -96,8 +90,7 @@ const ArmoryPage = (): ReactElement => {
               }}>
                 Arsenal loading. Stand by for deployment orders.
               </div>
-            </div>
-          </Animator>
+          </div>
         </div>
       </div>
     </>

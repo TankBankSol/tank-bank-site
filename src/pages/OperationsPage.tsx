@@ -2,14 +2,12 @@
 
 import { type ReactElement, useState, useEffect } from 'react'
 // import { useWallet } from '@solana/wallet-adapter-react'
-import { Animator } from '@arwes/react-animator'
 import { useHeaderHeight } from '../hooks/useHeaderHeight'
 import OperationCard from '../components/OperationCard'
 import OperationsSidePanel from '../components/OperationsSidePanel'
 
 const OperationsPage = (): ReactElement => {
   const [isMobile, setIsMobile] = useState(false)
-  const [mounted, setMounted] = useState(false)
   const headerHeight = useHeaderHeight()
   // const { connected } = useWallet()
 
@@ -21,10 +19,6 @@ const OperationsPage = (): ReactElement => {
     checkMobile()
     window.addEventListener('resize', checkMobile)
     return () => window.removeEventListener('resize', checkMobile)
-  }, [])
-
-  useEffect(() => {
-    setMounted(true)
   }, [])
 
   const operations = [
@@ -54,9 +48,7 @@ const OperationsPage = (): ReactElement => {
           maxWidth: '800px',
           width: '100%'
         }}>
-          <Animator active={mounted}>
-            <OperationCard operations={operations} isMobile={isMobile} />
-          </Animator>
+          <OperationCard operations={operations} isMobile={isMobile} />
         </div>
       </div>
     </>

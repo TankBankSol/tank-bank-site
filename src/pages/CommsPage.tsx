@@ -1,12 +1,10 @@
 
 import { type ReactElement, useState, useEffect } from 'react'
-import { Animator } from '@arwes/react-animator'
 import { useHeaderHeight } from '../hooks/useHeaderHeight'
 import CommunicationCard from '../components/CommunicationCard'
 
 const CommsPage = (): ReactElement => {
   const [isMobile, setIsMobile] = useState(false)
-  const [mounted, setMounted] = useState(false)
   const headerHeight = useHeaderHeight()
 
   useEffect(() => {
@@ -17,10 +15,6 @@ const CommsPage = (): ReactElement => {
     checkMobile()
     window.addEventListener('resize', checkMobile)
     return () => window.removeEventListener('resize', checkMobile)
-  }, [])
-
-  useEffect(() => {
-    setMounted(true)
   }, [])
 
   const features = [
@@ -47,9 +41,7 @@ const CommsPage = (): ReactElement => {
         maxWidth: '800px',
         width: '100%'
       }}>
-        <Animator active={mounted}>
-          <CommunicationCard features={features} isMobile={isMobile} />
-        </Animator>
+        <CommunicationCard features={features} isMobile={isMobile} />
       </div>
     </div>
   )

@@ -1,6 +1,5 @@
 import { type ReactElement, useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Animator } from '@arwes/react-animator'
 
 interface OperationsSidePanelProps {
   isMobile: boolean
@@ -9,7 +8,6 @@ interface OperationsSidePanelProps {
 
 const OperationsSidePanel = ({ isMobile, activeSection = 'mission-center' }: OperationsSidePanelProps): ReactElement => {
   const [isCollapsed, setIsCollapsed] = useState(true)
-  const [mounted, setMounted] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -28,9 +26,6 @@ const OperationsSidePanel = ({ isMobile, activeSection = 'mission-center' }: Ope
     }
   }, [isCollapsed, isMobile])
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   const navigationLinks = [
     { id: 'mission-center', label: 'Mission Center', path: '/operations' },
@@ -56,8 +51,8 @@ const OperationsSidePanel = ({ isMobile, activeSection = 'mission-center' }: Ope
   // Mobile collapsed toggle button
   if (isMobile && isCollapsed) {
     return (
-      <Animator active={mounted}>
         <button
+          className="animate-hidden animate-tactical-fade"
           onClick={() => setIsCollapsed(false)}
           data-augmented-ui="tl-clip br-clip border"
           css={{
@@ -86,7 +81,6 @@ const OperationsSidePanel = ({ isMobile, activeSection = 'mission-center' }: Ope
         >
           ≡ OPERATIONS
         </button>
-      </Animator>
     )
   }
 
@@ -159,8 +153,8 @@ const OperationsSidePanel = ({ isMobile, activeSection = 'mission-center' }: Ope
 
   // Desktop panel
   return (
-    <Animator active={mounted}>
-      <div
+    <div
+      className="animate-hidden animate-tactical-slide"
         data-augmented-ui="tl-clip tr-clip b-clip-x border"
         css={{
           position: 'fixed',
@@ -229,8 +223,7 @@ const OperationsSidePanel = ({ isMobile, activeSection = 'mission-center' }: Ope
         }}>
           Tank Bank Interface
         </div>
-      </div>
-    </Animator>
+    </div>
   )
 }
 
