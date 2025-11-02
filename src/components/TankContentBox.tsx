@@ -1,7 +1,7 @@
 
 
 import { type ReactElement } from 'react'
-import tankImage from '../assets/lowangleTankv2.png'
+import tankImage from '../assets/tankoutlineblack.png'
 
 const TankContentBox = (): ReactElement => {
   return (

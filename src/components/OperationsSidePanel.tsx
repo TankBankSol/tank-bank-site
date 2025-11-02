@@ -1,7 +1,6 @@
 import { type ReactElement, useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Animator } from '@arwes/react-animator'
-import { useHeaderHeight } from '../hooks/useHeaderHeight'
 
 interface OperationsSidePanelProps {
   isMobile: boolean
@@ -10,9 +9,9 @@ interface OperationsSidePanelProps {
 
 const OperationsSidePanel = ({ isMobile, activeSection = 'mission-center' }: OperationsSidePanelProps): ReactElement => {
   const [isCollapsed, setIsCollapsed] = useState(true)
+  const [mounted, setMounted] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
-  const headerHeight = useHeaderHeight()
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   // Close dropdown when clicking outside
@@ -28,6 +27,10 @@ const OperationsSidePanel = ({ isMobile, activeSection = 'mission-center' }: Ope
       return () => document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [isCollapsed, isMobile])
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const navigationLinks = [
     { id: 'mission-center', label: 'Mission Center', path: '/operations' },
@@ -53,18 +56,13 @@ const OperationsSidePanel = ({ isMobile, activeSection = 'mission-center' }: Ope
   // Mobile collapsed toggle button
   if (isMobile && isCollapsed) {
     return (
-      <Animator active={true}>
-        <div>
-          <button
+      <Animator active={mounted}>
+        <button
           onClick={() => setIsCollapsed(false)}
           data-augmented-ui="tl-clip br-clip border"
           css={{
-            position: 'absolute',
-            top: `${headerHeight - 35}px`, // Move up to avoid overlapping
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: 'calc(100vw - 46px)', // Match wallet button width
-            zIndex: 50,
+            width: 'calc(100vw - 35px)', // Match wallet button width
+            maxWidth: '410px', // Match wallet button max width
 
             '--aug-border-all': '2px',
             '--aug-border-bg': '#BE501E',
@@ -88,7 +86,6 @@ const OperationsSidePanel = ({ isMobile, activeSection = 'mission-center' }: Ope
         >
           ≡ OPERATIONS
         </button>
-        </div>
       </Animator>
     )
   }
@@ -162,7 +159,7 @@ const OperationsSidePanel = ({ isMobile, activeSection = 'mission-center' }: Ope
 
   // Desktop panel
   return (
-    <Animator active={true}>
+    <Animator active={mounted}>
       <div
         data-augmented-ui="tl-clip tr-clip b-clip-x border"
         css={{

@@ -297,7 +297,7 @@ const TopBar = (): ReactElement => {
           width: '100%',
           pointerEvents: 'auto',
           paddingTop: '0.05rem',
-          paddingBottom: '0.3rem'
+          paddingBottom: '0.02rem'
         }
       }}>
         <WalletButton />
@@ -310,7 +310,8 @@ const TopBar = (): ReactElement => {
           justifyContent: 'center',
           width: '100%',
           pointerEvents: 'auto',
-          paddingTop: '0.5rem'
+          paddingTop: '0.05rem',
+          paddingBottom: '0.1rem'
         }}>
           <OperationsSidePanel
             isMobile={isMobile}

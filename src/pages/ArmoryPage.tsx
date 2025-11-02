@@ -5,6 +5,7 @@ import OperationsSidePanel from '../components/OperationsSidePanel'
 
 const ArmoryPage = (): ReactElement => {
   const [isMobile, setIsMobile] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const headerHeight = useHeaderHeight()
 
   useEffect(() => {
@@ -15,6 +16,10 @@ const ArmoryPage = (): ReactElement => {
     checkMobile()
     window.addEventListener('resize', checkMobile)
     return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  useEffect(() => {
+    setMounted(true)
   }, [])
 
 
@@ -40,7 +45,7 @@ const ArmoryPage = (): ReactElement => {
           maxWidth: '800px',
           width: '100%'
         }}>
-          <Animator active={true}>
+          <Animator active={mounted}>
             <div
               data-augmented-ui="tl-clip tr-clip b-clip-x border"
               css={{

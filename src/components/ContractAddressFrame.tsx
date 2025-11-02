@@ -1,14 +1,19 @@
 
 
-import { type ReactElement, useState } from 'react'
+import { type ReactElement, useState, useEffect } from 'react'
 import { Animator } from '@arwes/react-animator'
 
 const ContractAddressFrame = (): ReactElement => {
   const [copied, setCopied] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   // Replace with your actual contract address
   const contractAddress = "Not Yet Launched"
   // const displayAddress = `${contractAddress.slice(0, 4)}...${contractAddress.slice(-4)}`
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const handleCopy = async () => {
     try {
@@ -47,7 +52,7 @@ const ContractAddressFrame = (): ReactElement => {
   }
 
   return (
-    <Animator active={true}>
+    <Animator active={mounted}>
         <div
           data-augmented-ui="tl-clip tr-clip border"
           css={{
