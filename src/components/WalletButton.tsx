@@ -2,7 +2,7 @@
 
 import { type ReactElement, useState, useEffect } from 'react'
 import { useWallet, useConnection } from '@solana/wallet-adapter-react'
-import { LAMPORTS_PER_SOL } from '@solana/web3.js'
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js'
 // import { useSolana } from '../hooks/useSolana'
 
 const DisconnectModal = ({ isOpen, onConfirm, onCancel }: { isOpen: boolean; onConfirm: () => void; onCancel: () => void }): ReactElement | null => {
@@ -166,7 +166,7 @@ const WalletButton = (): ReactElement => {
   const [showCustomModal, setShowCustomModal] = useState(false)
   const [buttonWidth, setButtonWidth] = useState(170)
   const [solBalance, setSolBalance] = useState<number>(0)
-  // const [tankBalance, setTankBalance] = useState<number>(0)
+  const [tankBalance, setTankBalance] = useState<number>(0)
 
   // Calculate responsive button width
   useEffect(() => {
@@ -198,17 +198,52 @@ const WalletButton = (): ReactElement => {
   // Fetch wallet balances
   useEffect(() => {
     if (connected && publicKey) {
+      // Fetch SOL balance
       connection.getBalance(publicKey).then((balance: number) => {
         const solAmount = balance / LAMPORTS_PER_SOL
         setSolBalance(solAmount)
       }).catch((error) => {
-        console.error('❌ Balance fetch error:', error)
+        console.error('❌ SOL Balance fetch error:', error)
       })
-      // TODO: Fetch TANK token balance when available
-      // setTankBalance(0)
+
+      // Fetch TANK token balance
+      const fetchTankBalance = async () => {
+        try {
+          const tankMintAddress = new PublicKey('5Z1urJyhqPNnrJA63M8bTUmL2ghXxNGgnB7n7FRpump')
+
+          // Get token accounts by owner
+          const tokenAccounts = await connection.getTokenAccountsByOwner(
+            publicKey,
+            {
+              mint: tankMintAddress,
+            }
+          )
+
+          if (tokenAccounts.value.length > 0) {
+            // Get account info for the first token account
+            const accountInfo = await connection.getAccountInfo(tokenAccounts.value[0].pubkey)
+            if (accountInfo) {
+              // Parse token account data to get balance
+              const accountData = accountInfo.data
+              // Token account data structure: first 64 bytes are layout, amount is at bytes 64-72
+              const amount = accountData.readBigUInt64LE(64)
+              // TANK has 6 decimals
+              const tankAmount = Number(amount) / Math.pow(10, 6)
+              setTankBalance(tankAmount)
+            }
+          } else {
+            setTankBalance(0)
+          }
+        } catch (error) {
+          console.error('❌ TANK Balance fetch error:', error)
+          setTankBalance(0)
+        }
+      }
+
+      fetchTankBalance()
     } else {
       setSolBalance(0)
-      // setTankBalance(0)
+      setTankBalance(0)
     }
   }, [connected, publicKey, connection])
 
@@ -254,7 +289,7 @@ const WalletButton = (): ReactElement => {
             fontWeight: 'bold'
           }}>
             <span>SOL: {formatBalance(solBalance)}</span>
-            {/* <span>TANK: {formatBalance(tankBalance)}</span> */}
+            <span>TANK: {formatBalance(tankBalance)}</span>
           </div>
         </div>
       )
