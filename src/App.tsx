@@ -11,6 +11,7 @@ import CommandPage from './pages/CommandPage'
 import OperationsPage from './pages/OperationsPage'
 import ArmoryPage from './pages/ArmoryPage'
 import CommsPage from './pages/CommsPage'
+import SettingsPage from './pages/SettingsPage'
 import './App.css'
 import './wallet-adapter.css'
 import './styles/animations.css'
@@ -55,6 +56,7 @@ const AppContent = () => {
         <Route path="/operations" element={<OperationsPage />} />
         <Route path="/armory" element={<ArmoryPage />} />
         <Route path="/comms" element={<CommsPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
       </Routes>
       <SocialMedia />
       <LoadingPage isLoading={isLoading} onComplete={completeLoading} />

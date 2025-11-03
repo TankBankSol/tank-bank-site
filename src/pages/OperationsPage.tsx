@@ -5,6 +5,7 @@ import { type ReactElement, useState, useEffect } from 'react'
 import { useHeaderHeight } from '../hooks/useHeaderHeight'
 import OperationCard from '../components/OperationCard'
 import OperationsSidePanel from '../components/OperationsSidePanel'
+import ProfileCard from '../components/ProfileCard'
 
 const OperationsPage = (): ReactElement => {
   const [isMobile, setIsMobile] = useState(false)
@@ -30,6 +31,19 @@ const OperationsPage = (): ReactElement => {
     <>
       {/* Desktop side panel only */}
       {!isMobile && <OperationsSidePanel isMobile={isMobile} activeSection="mission-center" />}
+
+      {/* Desktop Profile Card - Below side panel */}
+      {!isMobile && (
+        <div css={{
+          position: 'fixed',
+          top: '525px', // More space below the side panel
+          left: '2rem',
+          width: '255px', // Match side panel width exactly
+          zIndex: 50 // Lower than side panel
+        }}>
+          <ProfileCard isMobile={false} />
+        </div>
+      )}
 
       <div css={{
         minHeight: '100vh',

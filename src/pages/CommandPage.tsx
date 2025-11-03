@@ -1,37 +1,67 @@
 
 
-import { type ReactElement } from 'react'
+import { type ReactElement, useState, useEffect } from 'react'
+import ProfileCard from '../components/ProfileCard'
 
 const CommandPage = (): ReactElement => {
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   return (
-    <div css={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: '100vh',
-      padding: '120px 2rem 2rem',
-      color: '#A8540E',
-      fontFamily: 'FiraCode, monospace'
-    }}>
-      <h1 css={{
-        fontSize: '3rem',
-        marginBottom: '2rem',
-        textAlign: 'center'
+    <>
+      {/* Desktop Profile Card - Left side */}
+      {!isMobile && (
+        <div css={{
+          position: 'fixed',
+          top: '200px', // Align with content start
+          left: '2rem',
+          width: '255px', // Match operations/armory width
+          zIndex: 50
+        }}>
+          <ProfileCard isMobile={false} />
+        </div>
+      )}
+
+      <div css={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
+        padding: '120px 2rem 2rem',
+        paddingLeft: isMobile ? '2rem' : '300px', // Make room for desktop profile card
+        paddingRight: isMobile ? '2rem' : '165px', // Add right padding to center content better
+        color: '#A8540E',
+        fontFamily: 'FiraCode, monospace'
       }}>
-        Tank Bank Command Center
-      </h1>
-      <p css={{
-        fontSize: '1.2rem',
-        textAlign: 'center',
-        maxWidth: '800px',
-        lineHeight: 1.6,
-        opacity: 0.9
-      }}>
-        Welcome to Tank Bank Command Center - Your central hub for all Tank Bank operations.
-        Monitor your portfolio, manage your assets, and stay connected with the Tank Bank ecosystem.
-      </p>
-    </div>
+        <h1 css={{
+          fontSize: '3rem',
+          marginBottom: '2rem',
+          textAlign: 'center'
+        }}>
+          Tank Bank Command Center
+        </h1>
+        <p css={{
+          fontSize: '1.2rem',
+          textAlign: 'center',
+          maxWidth: '800px',
+          lineHeight: 1.6,
+          opacity: 0.9
+        }}>
+          Welcome to Tank Bank Command Center - Your central hub for all Tank Bank operations.
+          Monitor your portfolio, manage your assets, and stay connected with the Tank Bank ecosystem.
+        </p>
+      </div>
+    </>
   )
 }
 

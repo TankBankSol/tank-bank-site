@@ -2,6 +2,7 @@
 import { type ReactElement, useState, useEffect } from 'react'
 import { useHeaderHeight } from '../hooks/useHeaderHeight'
 import CommunicationCard from '../components/CommunicationCard'
+import ProfileCard from '../components/ProfileCard'
 
 const CommsPage = (): ReactElement => {
   const [isMobile, setIsMobile] = useState(false)
@@ -25,25 +26,40 @@ const CommsPage = (): ReactElement => {
   ]
 
   return (
-    <div css={{
-      minHeight: '100vh',
-      padding: `${isMobile ? headerHeight + 20 : 200}px 1rem 2rem`,
-      paddingLeft: isMobile ? '1rem' : '300px', // Make room for desktop side panel
-      paddingRight: isMobile ? '1rem' : '165px', // Add right padding to center content better
-      color: '#BE501E',
-      fontFamily: 'FiraCode, monospace',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      gap: '2rem'
-    }}>
+    <>
+      {/* Desktop Profile Card - Left side */}
+      {!isMobile && (
+        <div css={{
+          position: 'fixed',
+          top: '200px', // Align with content start
+          left: '2rem',
+          width: '255px', // Match operations/armory width
+          zIndex: 50
+        }}>
+          <ProfileCard isMobile={false} />
+        </div>
+      )}
+
       <div css={{
-        maxWidth: '800px',
-        width: '100%'
+        minHeight: '100vh',
+        padding: `${isMobile ? headerHeight + 20 : 200}px 1rem 2rem`,
+        paddingLeft: isMobile ? '1rem' : '300px', // Make room for desktop side panel
+        paddingRight: isMobile ? '1rem' : '165px', // Add right padding to center content better
+        color: '#BE501E',
+        fontFamily: 'FiraCode, monospace',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '2rem'
       }}>
-        <CommunicationCard features={features} isMobile={isMobile} />
+        <div css={{
+          maxWidth: '800px',
+          width: '100%'
+        }}>
+          <CommunicationCard features={features} isMobile={isMobile} />
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

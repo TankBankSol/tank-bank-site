@@ -69,7 +69,7 @@ export class RobustConnection {
     try {
       await this.primaryConnection.getVersion()
       this.usingFallback = false
-      console.log('Successfully reconnected to primary Helius RPC')
+      // Successfully reconnected to primary Helius RPC
     } catch (error) {
       console.warn('Primary RPC still unavailable:', error)
     }

@@ -122,7 +122,7 @@ export class SolanaService {
         preflightCommitment: 'confirmed',
       })
 
-      console.log(`Transaction sent: ${signature}`)
+      // Transaction sent successfully
 
       // Confirm transaction
       const confirmation = await connection.confirmTransaction({
@@ -134,7 +134,7 @@ export class SolanaService {
         throw new Error(`Transaction failed: ${confirmation.value.err}`)
       }
 
-      console.log(`Transaction confirmed: ${signature}`)
+      // Transaction confirmed successfully
       return signature
     } catch (error) {
       console.error('Error sending transaction:', error)

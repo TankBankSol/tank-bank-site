@@ -1,6 +1,7 @@
 import { type ReactElement, useState, useEffect } from 'react'
 import { useHeaderHeight } from '../hooks/useHeaderHeight'
 import OperationsSidePanel from '../components/OperationsSidePanel'
+import ProfileCard from '../components/ProfileCard'
 
 const ArmoryPage = (): ReactElement => {
   const [isMobile, setIsMobile] = useState(false)
@@ -22,10 +23,23 @@ const ArmoryPage = (): ReactElement => {
       {/* Desktop side panel only */}
       {!isMobile && <OperationsSidePanel isMobile={isMobile} activeSection="armory" />}
 
+      {/* Desktop Profile Card - Below side panel */}
+      {!isMobile && (
+        <div css={{
+          position: 'fixed',
+          top: '525px', // More space below the side panel
+          left: '2rem',
+          width: '255px', // Match side panel width exactly
+          zIndex: 50 // Lower than side panel
+        }}>
+          <ProfileCard isMobile={false} />
+        </div>
+      )}
+
       <div css={{
         minHeight: '100vh',
         padding: `${isMobile ? headerHeight + 20 : 200}px 1rem 2rem`,
-        paddingLeft: isMobile ? '1rem' : '300px', // Make room for desktop side panel
+        paddingLeft: isMobile ? '1rem' : '205px', // Make room for desktop side panel
         paddingRight: isMobile ? '1rem' : '165px', // Add right padding to center content better
         color: '#BE501E',
         fontFamily: 'FiraCode, monospace',
@@ -79,7 +93,7 @@ const ArmoryPage = (): ReactElement => {
                 marginBottom: '2rem',
                 textAlign: 'center'
               }}>
-                Tactical equipment to help you on the battlefield.
+                Enginneers are hard at work building and testing gaming SDK for customized payment options.
               </p>
 
               <div css={{
@@ -89,7 +103,7 @@ const ArmoryPage = (): ReactElement => {
                 fontSize: isMobile ? '0.8rem' : '0.9rem',
                 fontStyle: 'italic'
               }}>
-                Arsenal loading.
+                More Details Soon.
               </div>
             </div>
           </div>

@@ -5,6 +5,8 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import WalletButton from './WalletButton'
 import ContractAddressFrame from './ContractAddressFrame'
 import OperationsSidePanel from './OperationsSidePanel'
+import ProfileCard from './ProfileCard'
+import GearIcon from './GearIcon'
 import logoImage from '../assets/newlogo/outline new/Logo Outline ORANGE Long.png'
 
 const useIsMobile = () => {
@@ -165,7 +167,7 @@ const TopBar = (): ReactElement => {
   const isMobile = useIsMobile()
 
   // Determine if this page should have scrolling TopBar on mobile
-  const isScrollingPage = ['/comms', '/operations'].includes(location.pathname)
+  const isScrollingPage = ['/comms', '/operations', '/settings'].includes(location.pathname)
   const mobilePosition = isMobile && isScrollingPage ? 'absolute' : 'fixed'
 
 
@@ -253,13 +255,17 @@ const TopBar = (): ReactElement => {
         
       </div>
 
-      {/* Desktop Wallet Button */}
+      {/* Desktop Wallet Button & Settings */}
       <div css={{
         pointerEvents: 'auto',
+        display: 'flex',
+        gap: '1rem',
+        alignItems: 'center',
         '@media (max-width: 768px)': {
           display: 'none'
         }
       }}>
+        <GearIcon onClick={() => navigate('/settings')} />
         <WalletButton />
       </div>
 
@@ -300,6 +306,21 @@ const TopBar = (): ReactElement => {
         <WalletButton />
       </div>
 
+      {/* Mobile Profile Card */}
+      <div css={{
+        display: 'none',
+        '@media (max-width: 768px)': {
+          display: 'flex',
+          justifyContent: 'center',
+          width: '100%',
+          pointerEvents: 'auto',
+          paddingTop: '0.5rem',
+          paddingBottom: '0.5rem'
+        }
+      }}>
+        <ProfileCard isMobile={true} />
+      </div>
+
       {/* Mobile Operations Panel - Only on operations/armory pages */}
       {isMobile && ['/operations', '/armory'].includes(location.pathname) && (
         <div css={{
@@ -321,4 +342,25 @@ const TopBar = (): ReactElement => {
   )
 }
 
+{/* Mobile Settings Gear - Fixed Bottom Left */}
+const MobileSettingsGear = (): ReactElement => {
+  const navigate = useNavigate()
+  const isMobile = useIsMobile()
+
+  if (!isMobile) return <></>
+
+  return (
+    <div css={{
+      position: 'fixed',
+      bottom: '1rem',
+      left: '1rem',
+      zIndex: 1000,
+      pointerEvents: 'auto'
+    }}>
+      <GearIcon size={24} onClick={() => navigate('/settings')} />
+    </div>
+  )
+}
+
 export default TopBar
+export { MobileSettingsGear }
