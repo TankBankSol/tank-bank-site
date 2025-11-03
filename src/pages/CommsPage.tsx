@@ -19,7 +19,7 @@ const CommsPage = (): ReactElement => {
 
   const features = [
     { name: "Official X", url: "https://x.com/TankBankSol" },
-    { name: "X Community", url: "#" },
+    { name: "X Community", url: "https://x.com/i/communities/1985159716310229195" },
     { name: "Telegram", url: "#" },
     { name: "Discord", url: "#" }
   ]
