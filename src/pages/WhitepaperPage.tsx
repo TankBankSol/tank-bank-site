@@ -34,7 +34,7 @@ const WhitepaperPage = (): ReactElement => {
       <div css={{
         minHeight: '100vh',
         padding: `${isMobile ? headerHeight + 20 : 200}px 1rem 2rem`,
-        paddingLeft: isMobile ? '1rem' : '300px',
+        paddingLeft: isMobile ? '1rem' : '175px',
         paddingRight: isMobile ? '1rem' : '165px',
         color: '#BE501E',
         fontFamily: 'FiraCode, monospace',
