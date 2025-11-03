@@ -20,19 +20,29 @@ const ArmoryPage = (): ReactElement => {
 
   return (
     <>
-      {/* Desktop side panel only */}
-      {!isMobile && <OperationsSidePanel isMobile={isMobile} activeSection="armory" />}
-
-      {/* Desktop Profile Card - Below side panel */}
+      {/* Desktop Profile Card - Above side panel */}
       {!isMobile && (
         <div css={{
           position: 'fixed',
-          top: '525px', // More space below the side panel
+          top: '200px', // Same as sidepanel starting position
           left: '2rem',
           width: '255px', // Match side panel width exactly
-          zIndex: 50 // Lower than side panel
+          zIndex: 100 // Same as side panel
         }}>
           <ProfileCard isMobile={false} />
+        </div>
+      )}
+
+      {/* Desktop side panel - Below ProfileCard */}
+      {!isMobile && (
+        <div css={{
+          position: 'fixed',
+          top: '470px', // Further below the ProfileCard
+          left: '2rem',
+          width: '235px',
+          zIndex: 100
+        }}>
+          <OperationsSidePanel isMobile={isMobile} activeSection="armory" />
         </div>
       )}
 

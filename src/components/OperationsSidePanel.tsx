@@ -157,11 +157,7 @@ const OperationsSidePanel = ({ isMobile, activeSection = 'mission-center' }: Ope
       className="animate-hidden animate-tactical-slide"
         data-augmented-ui="tl-clip tr-clip b-clip-x border"
         css={{
-          position: 'fixed',
-          top: '200px',
-          left: '2rem',
           width: '235px',
-          zIndex: 100,
 
           '--aug-tr': '20px',
           '--aug-tl': '8px',
