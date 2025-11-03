@@ -156,9 +156,9 @@ const SocialMedia = (): ReactElement => {
         },
 
         '&.pumpfun a': {
-          color: '#666666', // Greyed out color
+          color: '#BE501E', // Amber color to match X
           '& span': {
-            background: '#666666', // Greyed out border color
+            background: '#BE501E', // Amber border color
           },
         },
 
@@ -208,7 +208,7 @@ const SocialMedia = (): ReactElement => {
         </a>
       </li>
       <li className="pumpfun">
-        <a href="#">
+        <a href="https://pump.fun/coin/5Z1urJyhqPNnrJA63M8bTUmL2ghXxNGgnB7n7FRpump" target="_blank" rel="noopener noreferrer">
           <span></span>
           <span></span>
           <span></span>

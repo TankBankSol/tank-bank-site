@@ -22,7 +22,7 @@ const OperationsPage = (): ReactElement => {
   }, [])
 
   const operations = [
-    { name: "Night Forge", url: "#" },
+    { name: "Night Forge", url: "https://x.com/TankBankSol/status/1985154407114174768" },
     { name: "Black Phantom", url: "#" }
   ]
 
