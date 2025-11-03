@@ -170,6 +170,20 @@ const SocialMedia = (): ReactElement => {
           },
         },
 
+        '&.whitepaper a': {
+          color: '#BE501E',
+          '& span': {
+            background: '#BE501E',
+          },
+        },
+
+        '&.whitepaper a:hover': {
+          color: '#000000',
+          '& span': {
+            background: '#000000',
+          },
+        },
+
         /* '&.instagram a:hover': {
           color: '#c32aa3',
           '& span': {
@@ -234,6 +248,35 @@ const SocialMedia = (): ReactElement => {
                 </g>
               </g>
             </g>
+          </svg>
+        </a>
+      </li>
+      <li className="whitepaper">
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault()
+            navigate('/whitepaper')
+          }}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            css={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 1
+            }}
+          >
+            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
           </svg>
         </a>
       </li>

@@ -12,6 +12,7 @@ import OperationsPage from './pages/OperationsPage'
 import ArmoryPage from './pages/ArmoryPage'
 import CommsPage from './pages/CommsPage'
 import SettingsPage from './pages/SettingsPage'
+import WhitepaperPage from './pages/WhitepaperPage'
 import './App.css'
 import './wallet-adapter.css'
 import './styles/animations.css'
@@ -57,6 +58,7 @@ const AppContent = () => {
         <Route path="/armory" element={<ArmoryPage />} />
         <Route path="/comms" element={<CommsPage />} />
         <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/whitepaper" element={<WhitepaperPage />} />
       </Routes>
       <SocialMedia />
       <LoadingPage isLoading={isLoading} onComplete={completeLoading} />
