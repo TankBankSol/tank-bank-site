@@ -1,16 +1,19 @@
 
 
 import { type ReactElement, useState, useEffect } from 'react'
-// import { useWallet } from '@solana/wallet-adapter-react'
+import { useWallet } from '@solana/wallet-adapter-react'
 import { useHeaderHeight } from '../hooks/useHeaderHeight'
 import OperationCard from '../components/OperationCard'
 import OperationsSidePanel from '../components/OperationsSidePanel'
 import ProfileCard from '../components/ProfileCard'
+import { ProfileService } from '../services/profileService'
 
 const OperationsPage = (): ReactElement => {
   const [isMobile, setIsMobile] = useState(false)
   const headerHeight = useHeaderHeight()
-  // const { connected } = useWallet()
+  const { connected, publicKey } = useWallet()
+  const [hasProfile, setHasProfile] = useState(false)
+  const [profileLoading, setProfileLoading] = useState(true)
 
   useEffect(() => {
     const checkMobile = () => {
@@ -22,6 +25,36 @@ const OperationsPage = (): ReactElement => {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
+  useEffect(() => {
+    const checkProfile = async () => {
+      if (connected && publicKey) {
+        setProfileLoading(true)
+        try {
+          const profile = await ProfileService.getProfile(publicKey.toString())
+          setHasProfile(!!profile)
+        } catch (error) {
+          console.error('Error checking profile:', error)
+          setHasProfile(false)
+        } finally {
+          setProfileLoading(false)
+        }
+      } else {
+        setHasProfile(false)
+        setProfileLoading(false)
+      }
+    }
+
+    checkProfile()
+
+    // Listen for profile updates
+    const handleProfileUpdate = () => {
+      checkProfile()
+    }
+
+    window.addEventListener('profileUpdated', handleProfileUpdate)
+    return () => window.removeEventListener('profileUpdated', handleProfileUpdate)
+  }, [connected, publicKey])
+
   const operations = [
     { name: "Night Forge", url: "https://x.com/TankBankSol/status/1985154407114174768" },
     { name: "Black Phantom", url: "#" }
@@ -30,7 +63,7 @@ const OperationsPage = (): ReactElement => {
   return (
     <>
       {/* Desktop Profile Card - Above side panel */}
-      {!isMobile && (
+      {!isMobile && hasProfile && !profileLoading && (
         <div css={{
           position: 'fixed',
           top: '200px', // Same as sidepanel starting position
@@ -42,11 +75,11 @@ const OperationsPage = (): ReactElement => {
         </div>
       )}
 
-      {/* Desktop side panel - Below ProfileCard */}
+      {/* Desktop side panel - Position based on profile presence */}
       {!isMobile && (
         <div css={{
           position: 'fixed',
-          top: '470px', // Further below the ProfileCard
+          top: (hasProfile && !profileLoading) ? '470px' : '200px', // Move up if no profile
           left: '2rem',
           width: '235px',
           zIndex: 100
