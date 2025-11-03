@@ -253,7 +253,7 @@ const WhitepaperPage = (): ReactElement => {
               </ul>
 
               <h3>3.3 Tokenomics</h3>
-              <p>(Exact numbers to be defined, placeholder structure below)</p>
+              
               <ul>
                 <li><strong>Total Supply:</strong> 100,000,000 $TANKS</li>
                 <li><strong>Marketing & Rewards:</strong> 40%</li>
