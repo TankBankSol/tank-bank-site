@@ -1,6 +1,5 @@
 
-import { type ReactElement, type ReactNode, useRef } from 'react'
-import { FrameOctagon } from '@arwes/react-frames'
+import { type ReactElement, type ReactNode } from 'react'
 
 interface FrameContainerProps {
   children: ReactNode
@@ -13,46 +12,24 @@ const FrameContainer = ({
   width = 300,
   height = 200
 }: FrameContainerProps): ReactElement => {
-  const svgRef = useRef<SVGSVGElement | null>(null)
-
   return (
-    <div css={{
-      position: 'relative',
-      width,
-      height,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+    <div
+      data-augmented-ui="tl-clip tr-clip bl-clip br-clip border"
+      css={{
+        '--aug-border-all': '2px',
+        '--aug-border-bg': '#BE501E',
+        '--aug-clip-size': '10px',
 
-      '[data-name=bg]': {
-        color: 'hsl(40, 60%, 8%)',
-        filter: 'drop-shadow(0 0 4px hsl(40, 60%, 8%))'
-      },
-      '[data-name=line]': {
-        color: '#BE501E',
-        filter: 'drop-shadow(0 0 6px #BE501E)'
-      }
-    }}>
-      <FrameOctagon
-        elementRef={svgRef}
-        padding={4}
-        strokeWidth={3}
-      />
-      <div css={{
-        position: 'absolute',
-        inset: 20,
+        position: 'relative',
+        width,
+        height,
         display: 'flex',
-        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 16,
-        zIndex: 1,
-        overflow: 'hidden',
-        wordBreak: 'break-word',
-        hyphens: 'auto'
+        background: 'rgba(0, 0, 0, 0.65)',
+        padding: 16
       }}>
         {children}
-      </div>
     </div>
   )
 }

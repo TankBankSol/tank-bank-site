@@ -1,5 +1,4 @@
 import { type ReactElement, useState, useEffect } from 'react'
-import { Animator } from '@arwes/react-animator'
 
 interface LoadingPageProps {
   isLoading: boolean
@@ -72,7 +71,6 @@ const LoadingPage = ({ isLoading, onComplete }: LoadingPageProps): ReactElement 
       fontFamily: 'FiraCode, monospace'
     }}>
       {/* Tank Bank Logo */}
-      <Animator active={true}>
         <div css={{
           marginBottom: '3rem',
           textAlign: 'center'
@@ -102,10 +100,8 @@ const LoadingPage = ({ isLoading, onComplete }: LoadingPageProps): ReactElement 
             TACTICAL OPERATIONS INTERFACE
           </div>
         </div>
-      </Animator>
 
       {/* Loading Container */}
-      <Animator active={true}>
         <div
           data-augmented-ui="tl-clip tr-clip bl-clip br-clip border"
           css={{
@@ -219,7 +215,6 @@ const LoadingPage = ({ isLoading, onComplete }: LoadingPageProps): ReactElement 
             <span className="dot">●</span>
           </div>
         </div>
-      </Animator>
 
       {/* Global Styles for Animations */}
       <style>{`

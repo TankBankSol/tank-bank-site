@@ -67,7 +67,7 @@ const ContractAddressFrame = (): ReactElement => {
             '--aug-clip-size': '6px',
 
             '@media (max-width: 768px)': {
-              width: '100%',
+              width: 'calc(100vw - 46px)',
               maxWidth: '380px',
               height: '35px',
               lineHeight: '35px',

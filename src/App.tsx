@@ -71,6 +71,26 @@ function App() {
           <AppContent />
         </WalletContextProvider>
       </Router>
+
+      {/* Disclaimer */}
+      <div css={{
+        position: 'fixed',
+        bottom: '8px',
+        right: '8px',
+        color: 'rgba(190, 80, 30, 0.6)',
+        fontFamily: 'FiraCode, monospace',
+        fontSize: '0.7rem',
+        zIndex: 1000,
+        pointerEvents: 'none',
+        userSelect: 'none',
+        '@media (max-width: 768px)': {
+          fontSize: '0.6rem',
+          bottom: '6px',
+          right: '6px'
+        }
+      }}>
+        Experimental Platform - Use at your own risk
+      </div>
     </>
   )
 }

@@ -3,7 +3,6 @@
 import { type ReactElement, useState, useEffect } from 'react'
 import { useWallet, useConnection } from '@solana/wallet-adapter-react'
 import { LAMPORTS_PER_SOL } from '@solana/web3.js'
-import { Animator } from '@arwes/react-animator'
 // import { useSolana } from '../hooks/useSolana'
 
 const DisconnectModal = ({ isOpen, onConfirm, onCancel }: { isOpen: boolean; onConfirm: () => void; onCancel: () => void }): ReactElement | null => {
@@ -292,7 +291,6 @@ const WalletButton = (): ReactElement => {
 
   return (
     <div>
-      <Animator active={true}>
         <div
           data-augmented-ui="br-clip bl-clip border"
           css={{
@@ -332,7 +330,6 @@ const WalletButton = (): ReactElement => {
         >
           {getButtonText()}
         </div>
-      </Animator>
 
       <DisconnectModal
         isOpen={showDisconnectModal}

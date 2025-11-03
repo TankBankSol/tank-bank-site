@@ -2,7 +2,6 @@
 
 import { type ReactElement, useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Animator } from '@arwes/react-animator'
 import WalletButton from './WalletButton'
 import ContractAddressFrame from './ContractAddressFrame'
 import OperationsSidePanel from './OperationsSidePanel'
@@ -24,9 +23,8 @@ const useIsMobile = () => {
   return isMobile
 }
 
-const MenuButton = ({ children, active = true, onClick }: { children: string; active?: boolean; onClick?: () => void }): ReactElement => {
+const MenuButton = ({ children, onClick }: { children: string; onClick?: () => void }): ReactElement => {
   return (
-    <Animator active={active}>
       <div
         css={{
           position: 'relative',
@@ -157,7 +155,6 @@ const MenuButton = ({ children, active = true, onClick }: { children: string; ac
           {children}
         </div>
       </div>
-    </Animator>
   )
 }
 

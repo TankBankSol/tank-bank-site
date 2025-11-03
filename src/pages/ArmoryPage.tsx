@@ -40,7 +40,7 @@ const ArmoryPage = (): ReactElement => {
           width: '100%'
         }}>
           <div
-            className="animate-hidden animate-tactical-zoom"
+            className="animate-hidden animate-border-grow"
             data-augmented-ui="tl-clip tr-clip b-clip-x border"
             css={{
               '--aug-tr': '20px',
@@ -55,6 +55,7 @@ const ArmoryPage = (): ReactElement => {
               marginBottom: '3rem'
             }}
           >
+            <div className="animate-hidden animate-content-delayed">
               <h2 css={{
                 color: '#BE501E',
                 fontFamily: 'Nemesys, serif',
@@ -78,7 +79,7 @@ const ArmoryPage = (): ReactElement => {
                 marginBottom: '2rem',
                 textAlign: 'center'
               }}>
-                Tactical tools and weapons for mission success. Deploy specialized equipment to dominate the digital battlefield.
+                Tactical equipment to help you on the battlefield.
               </p>
 
               <div css={{
@@ -88,8 +89,9 @@ const ArmoryPage = (): ReactElement => {
                 fontSize: isMobile ? '0.8rem' : '0.9rem',
                 fontStyle: 'italic'
               }}>
-                Arsenal loading. Stand by for deployment orders.
+                Arsenal loading.
               </div>
+            </div>
           </div>
         </div>
       </div>
