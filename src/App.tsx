@@ -91,6 +91,39 @@ function App() {
       }}>
         Experimental Platform - Use at your own risk
       </div>
+
+      {/* Pump.fun Link */}
+      <div css={{
+        position: 'fixed',
+        bottom: '8px',
+        left: '8px',
+        zIndex: 1000,
+        '@media (max-width: 768px)': {
+          bottom: '6px',
+          left: '6px'
+        }
+      }}>
+        <a
+          href="https://pump.fun/coin/5Z1urJyhqPNnrJA63M8bTUmL2ghXxNGgnB7n7FRpump"
+          target="_blank"
+          rel="noopener noreferrer"
+          css={{
+            color: '#BE501E !important',
+            fontFamily: 'FiraCode, monospace',
+            fontSize: '0.7rem',
+            textDecoration: 'none',
+            transition: 'color 0.3s ease',
+            '&:hover': {
+              color: '#000000 !important'
+            },
+            '@media (max-width: 768px)': {
+              fontSize: '0.6rem'
+            }
+          }}
+        >
+          pump.fun
+        </a>
+      </div>
     </>
   )
 }

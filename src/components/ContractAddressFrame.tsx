@@ -5,9 +5,9 @@ import { type ReactElement, useState } from 'react'
 const ContractAddressFrame = (): ReactElement => {
   const [copied, setCopied] = useState(false)
 
-  // Replace with your actual contract address
-  const contractAddress = "Not Yet Launched"
-  // const displayAddress = `${contractAddress.slice(0, 4)}...${contractAddress.slice(-4)}`
+  // Tank Bank token contract address
+  const contractAddress = "5Z1urJyhqPNnrJA63M8bTUmL2ghXxNGgnB7n7FRpump"
+  const displayAddress = `${contractAddress.slice(0, 6)}...${contractAddress.slice(-6)}`
 
 
   const handleCopy = async () => {
@@ -92,7 +92,7 @@ const ContractAddressFrame = (): ReactElement => {
             height: '100%',
             position: 'relative'
           }}>
-            <span>{contractAddress}</span>
+            <span>{displayAddress}</span>
 
             <div css={{
               position: 'absolute',
